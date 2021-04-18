@@ -3,8 +3,8 @@ package io.ninjabet.football.entity;
 import javax.persistence.*;
 import java.util.Date;
 
-@Entity
-public class MatchDay {
+@Entity(name = "MATCHDAYS")
+public class Matchday {
 
     @Id
     @GeneratedValue
@@ -20,10 +20,10 @@ public class MatchDay {
     @ManyToOne
     private Competition competition;
 
-    public MatchDay() {
+    public Matchday() {
     }
 
-    public MatchDay(String name, Date fromDate, Date toDate, Competition competition) {
+    public Matchday(String name, Date fromDate, Date toDate, Competition competition) {
         this.name = name;
         this.fromDate = fromDate;
         this.toDate = toDate;

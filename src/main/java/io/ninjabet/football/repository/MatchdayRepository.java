@@ -1,11 +1,11 @@
 package io.ninjabet.football.repository;
 
 import io.ninjabet.football.entity.Competition;
-import io.ninjabet.football.entity.MatchDay;
+import io.ninjabet.football.entity.Matchday;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface MatchDayRepository extends CrudRepository<MatchDay, Long> {
-    Iterable<MatchDay> findByCompetition(Competition competition);
+public interface MatchdayRepository extends CrudRepository<Matchday, Long> {
+    Iterable<Matchday> findByCompetition(Competition competition);
 }

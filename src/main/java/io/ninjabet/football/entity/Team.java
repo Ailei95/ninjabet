@@ -2,7 +2,7 @@ package io.ninjabet.football.entity;
 
 import javax.persistence.*;
 
-@Entity
+@Entity(name = "TEAMS")
 public class Team {
 
     @Id
