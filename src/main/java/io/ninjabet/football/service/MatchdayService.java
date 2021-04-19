@@ -1,32 +1,32 @@
 package io.ninjabet.football.service;
 
+import io.ninjabet.auth.service.UserService;
 import io.ninjabet.football.entity.Competition;
 import io.ninjabet.football.entity.Matchday;
 import io.ninjabet.football.repository.MatchdayRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.Optional;
 
 @Service
-public class MatchdayService {
+public class MatchdayService extends DeleteManagerService<Matchday, Long> {
 
-    private final MatchdayRepository matchdayRepository;
     private final CompetitionService competitionService;
 
     @Autowired
     public MatchdayService(
             MatchdayRepository matchdayRepository,
-            CompetitionService competitionService
+            CompetitionService competitionService,
+            UserService userService
     ) {
-        this.matchdayRepository = matchdayRepository;
+        super(matchdayRepository, userService);
         this.competitionService = competitionService;
     }
 
     public Iterable<Matchday> getMatchdays() {
-        return this.matchdayRepository.findAllByDeletedFalse();
+        return ((MatchdayRepository) this.crudRepository).findAllByDeletedFalse();
     }
 
     public Iterable<Matchday> getMatchdaysByCompetition(Long competitionId) {
@@ -36,19 +36,19 @@ public class MatchdayService {
             return new LinkedList<>();
         }
 
-        return this.matchdayRepository.findByCompetition(localCompetition.get());
+        return ((MatchdayRepository) this.crudRepository).findByCompetition(localCompetition.get());
     }
 
     public Optional<Matchday> getMatchdayById(Long id) {
-        return this.matchdayRepository.findById(id);
+        return this.crudRepository.findById(id);
     }
 
     public Matchday addMatchday(Matchday matchday) {
-        return this.matchdayRepository.save(matchday);
+        return this.crudRepository.save(matchday);
     }
 
     public Optional<Matchday> updateMatchday(Long id, Matchday matchday) {
-        Optional<Matchday> localMatchDay = this.matchdayRepository.findById(id);
+        Optional<Matchday> localMatchDay = this.crudRepository.findById(id);
 
         if (!localMatchDay.isPresent()) {
             return Optional.empty();
@@ -59,34 +59,14 @@ public class MatchdayService {
         localMatchDay.get().setFromDate(matchday.getFromDate());
         localMatchDay.get().setToDate(matchday.getToDate());
 
-        return Optional.of(this.matchdayRepository.save(localMatchDay.get()));
+        return Optional.of(this.crudRepository.save(localMatchDay.get()));
     }
 
     public boolean deleteMatchday(Long id) {
-        return this.setMatchdayIsDeleted(id, true);
+        return this.setEntityDeleted(id, true);
     }
 
     public boolean restoreMatchday(Long id) {
-        return this.setMatchdayIsDeleted(id, false);
-    }
-
-    private boolean setMatchdayIsDeleted(Long id, boolean deleted) {
-        Optional<Matchday> localMatchday = this.matchdayRepository.findById(id);
-
-        if (!localMatchday.isPresent()) {
-            return false;
-        }
-
-        if (deleted) {
-            localMatchday.get().setDeleteDate(new Date());
-        } else {
-            localMatchday.get().setDeleteDate(null);
-        }
-
-        localMatchday.get().setDeleted(deleted);
-
-        this.matchdayRepository.save(localMatchday.get());
-
-        return true;
+        return this.setEntityDeleted(id, false);
     }
 }

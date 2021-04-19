@@ -1,35 +1,38 @@
 package io.ninjabet.football.service;
 
+import io.ninjabet.auth.service.UserService;
 import io.ninjabet.football.entity.Match;
 import io.ninjabet.football.repository.MatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.Optional;
 
 @Service
-public class MatchService {
-
-    private final MatchRepository matchRepository;
+public class MatchService extends DeleteManagerService<Match, Long> {
 
     @Autowired
-    public MatchService(MatchRepository matchRepository) { this.matchRepository = matchRepository; }
+    public MatchService(
+            MatchRepository matchRepository,
+            UserService userService
+    ) {
+        super(matchRepository, userService);
+    }
 
     public Iterable<Match> getMatches() {
-        return this.matchRepository.findAllByDeletedFalse();
+        return ((MatchRepository) this.crudRepository).findAllByDeletedFalse();
     }
 
     public Optional<Match> getMatchById(Long id) {
-        return this.matchRepository.findById(id);
+        return this.crudRepository.findById(id);
     }
 
     public Match addMatch(Match match) {
-        return this.matchRepository.save(match);
+        return this.crudRepository.save(match);
     }
 
     public Optional<Match> updateMatch(Long id, Match match) {
-        Optional<Match> localMatch = this.matchRepository.findById(id);
+        Optional<Match> localMatch = this.crudRepository.findById(id);
 
         if (!localMatch.isPresent()) {
             return Optional.empty();
@@ -40,34 +43,14 @@ public class MatchService {
         localMatch.get().setDate(match.getDate());
         localMatch.get().setMatchday(match.getMatchday());
 
-        return Optional.of(this.matchRepository.save(localMatch.get()));
+        return Optional.of(this.crudRepository.save(localMatch.get()));
     }
 
     public boolean deleteMatch(Long id) {
-        return this.setMatchIsDeleted(id, true);
+        return this.setEntityDeleted(id, true);
     }
 
     public boolean restoreMatch(Long id) {
-        return this.setMatchIsDeleted(id, false);
-    }
-
-    private boolean setMatchIsDeleted(Long id, boolean deleted) {
-        Optional<Match> localMatch = this.matchRepository.findById(id);
-
-        if (!localMatch.isPresent()) {
-            return false;
-        }
-
-        if (deleted) {
-            localMatch.get().setDeleteDate(new Date());
-        } else {
-            localMatch.get().setDeleteDate(null);
-        }
-
-        localMatch.get().setDeleted(deleted);
-
-        this.matchRepository.save(localMatch.get());
-
-        return true;
+        return this.setEntityDeleted(id, false);
     }
 }

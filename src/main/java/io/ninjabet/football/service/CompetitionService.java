@@ -1,35 +1,36 @@
 package io.ninjabet.football.service;
 
+import io.ninjabet.auth.service.UserService;
 import io.ninjabet.football.entity.Competition;
 import io.ninjabet.football.entity.Country;
 import io.ninjabet.football.repository.CompetitionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.Optional;
 
 @Service
-public class CompetitionService {
-    private final CompetitionRepository competitionRepository;
+public class CompetitionService extends DeleteManagerService<Competition, Long> {
+
     private final CountryService countryService;
 
     @Autowired
     public CompetitionService(
             CompetitionRepository competitionRepository,
-            CountryService countryService
+            CountryService countryService,
+            UserService userService
     ) {
-        this.competitionRepository = competitionRepository;
+        super(competitionRepository, userService);
         this.countryService = countryService;
     }
 
     public Iterable<Competition> getCompetitions() {
-        return this.competitionRepository.findAllByDeletedFalse();
+        return ((CompetitionRepository) this.crudRepository).findAllByDeletedFalse();
     }
 
     public Optional<Competition> getCompetitionById(Long id) {
-        return this.competitionRepository.findById(id);
+        return this.crudRepository.findById(id);
     }
 
     public Iterable<Competition> getCompetitionsByCountry(Long countryId) {
@@ -39,15 +40,15 @@ public class CompetitionService {
             return new LinkedList<>();
         }
 
-        return this.competitionRepository.findByCountry(localCountry.get());
+        return ((CompetitionRepository) this.crudRepository).findByCountry(localCountry.get());
     }
 
     public Competition addCompetition(Competition competition) {
-        return this.competitionRepository.save(competition);
+        return this.crudRepository.save(competition);
     }
 
     public Optional<Competition> updateCompetition(Long id, Competition competition) {
-        Optional<Competition> localCompetition = this.competitionRepository.findById(id);
+        Optional<Competition> localCompetition = this.crudRepository.findById(id);
 
         if (!localCompetition.isPresent()) {
             return Optional.empty();
@@ -60,34 +61,14 @@ public class CompetitionService {
         localCompetition.get().setCountry(competition.getCountry());
         localCompetition.get().setTeams(competition.getTeams());
 
-        return Optional.of(this.competitionRepository.save(localCompetition.get()));
+        return Optional.of(this.crudRepository.save(localCompetition.get()));
     }
 
     public boolean deleteCompetition(Long id) {
-        return this.setCompetitionIsDeleted(id, true);
+        return this.setEntityDeleted(id, true);
     }
 
     public boolean restoreCompetition(Long id) {
-        return this.setCompetitionIsDeleted(id, false);
-    }
-
-    private boolean setCompetitionIsDeleted(Long id, boolean deleted) {
-        Optional<Competition> localCompetition = this.competitionRepository.findById(id);
-
-        if (!localCompetition.isPresent()) {
-            return false;
-        }
-
-        if (deleted) {
-            localCompetition.get().setDeleteDate(new Date());
-        } else {
-            localCompetition.get().setDeleteDate(null);
-        }
-
-        localCompetition.get().setDeleted(deleted);
-
-        this.competitionRepository.save(localCompetition.get());
-
-        return true;
+        return this.setEntityDeleted(id, false);
     }
 }

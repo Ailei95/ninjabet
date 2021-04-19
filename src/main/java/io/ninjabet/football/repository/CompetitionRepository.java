@@ -6,7 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CompetitionRepository  extends CrudRepository<Competition, Long> {
+public interface CompetitionRepository extends CrudRepository<Competition, Long> {
     Iterable<Competition> findAllByDeletedFalse();
 
     Iterable<Competition> findByCountry(Country country);

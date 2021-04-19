@@ -1,37 +1,38 @@
 package io.ninjabet.football.service;
 
+import io.ninjabet.auth.service.UserService;
 import io.ninjabet.football.entity.Team;
 import io.ninjabet.football.repository.TeamRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.Optional;
 
 @Service
-public class TeamService {
+public class TeamService extends DeleteManagerService<Team, Long> {
 
-    private final TeamRepository teamRepository;
-
+    @Autowired
     public TeamService(
-            TeamRepository teamRepository
+            TeamRepository teamRepository,
+            UserService userService
     ) {
-        this.teamRepository = teamRepository;
+        super(teamRepository, userService);
     }
 
     public Iterable<Team> getTeams() {
-        return this.teamRepository.findAllByDeletedFalse();
+        return ((TeamRepository) this.crudRepository).findAllByDeletedFalse();
     }
 
     public Optional<Team> getTeamById(Long id) {
-        return this.teamRepository.findById(id);
+        return this.crudRepository.findById(id);
     }
 
     public Team addTeam(Team team) {
-        return this.teamRepository.save(team);
+        return this.crudRepository.save(team);
     }
 
     public Optional<Team> updateTeam(Long id, Team team) {
-        Optional<Team> localTeam = this.teamRepository.findById(id);
+        Optional<Team> localTeam = this.crudRepository.findById(id);
 
         if (!localTeam.isPresent()) {
             return Optional.empty();
@@ -40,34 +41,14 @@ public class TeamService {
         localTeam.get().setName(team.getName());
         localTeam.get().setImageUrl(team.getImageUrl());
 
-        return Optional.of(this.teamRepository.save(localTeam.get()));
+        return Optional.of(this.crudRepository.save(localTeam.get()));
     }
 
     public boolean deleteTeam(Long id) {
-        return this.setTeamIsDeleted(id, true);
+        return this.setEntityDeleted(id, true);
     }
 
     public boolean restoreTeam(Long id) {
-        return this.setTeamIsDeleted(id, false);
-    }
-
-    private boolean setTeamIsDeleted(Long id, boolean deleted) {
-        Optional<Team> localTeam = this.teamRepository.findById(id);
-
-        if (!localTeam.isPresent()) {
-            return false;
-        }
-
-        if (deleted) {
-            localTeam.get().setDeleteDate(new Date());
-        } else {
-            localTeam.get().setDeleteDate(null);
-        }
-
-        localTeam.get().setDeleted(deleted);
-
-        this.teamRepository.save(localTeam.get());
-
-        return true;
+        return this.setEntityDeleted(id, false);
     }
 }
