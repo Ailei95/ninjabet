@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity(name = "TEAMS")
-public class Team implements Serializable {
+public class Team extends DeleteManagerEntity implements Serializable {
 
     @Id
     @GeneratedValue
@@ -17,12 +17,6 @@ public class Team implements Serializable {
     private String name;
 
     private String imageUrl;
-
-    @JsonIgnore
-    private boolean deleted;
-
-    @JsonIgnore
-    private Date deleteDate;
 
     public Team() {
     }
@@ -54,21 +48,5 @@ public class Team implements Serializable {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
-    }
-
-    public boolean isDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
-    }
-
-    public Date getDeleteDate() {
-        return deleteDate;
-    }
-
-    public void setDeleteDate(Date deleteDate) {
-        this.deleteDate = deleteDate;
     }
 }

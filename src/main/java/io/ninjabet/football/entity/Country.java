@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity(name = "COUNTRIES")
-public class Country implements Serializable {
+public class Country extends DeleteManagerEntity implements Serializable {
 
     @Id
     @GeneratedValue
@@ -21,16 +21,6 @@ public class Country implements Serializable {
     private String iso2Code;
 
     private String imageUrl;
-
-    @JsonIgnore
-    private boolean deleted;
-
-    @JsonIgnore
-    private Date deleteDate;
-
-    @JsonIgnore
-    @ManyToOne
-    private User lastDeleteActionUser;
 
     public Country() {
     }
@@ -71,25 +61,5 @@ public class Country implements Serializable {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
-    }
-
-    public boolean isDeleted() { return deleted; }
-
-    public void setDeleted(boolean deleted) { this.deleted = deleted; }
-
-    public Date getDeleteDate() {
-        return deleteDate;
-    }
-
-    public void setDeleteDate(Date deleteDate) {
-        this.deleteDate = deleteDate;
-    }
-
-    public User getLastDeleteActionUser() {
-        return lastDeleteActionUser;
-    }
-
-    public void setLastDeleteActionUser(User lastDeleteActionUser) {
-        this.lastDeleteActionUser = lastDeleteActionUser;
     }
 }

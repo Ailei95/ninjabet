@@ -1,14 +1,12 @@
 package io.ninjabet.football.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 @Entity(name = "COMPETITIONS")
-public class Competition implements Serializable {
+public class Competition extends DeleteManagerEntity implements Serializable {
 
     @Id
     @GeneratedValue
@@ -28,12 +26,6 @@ public class Competition implements Serializable {
 
     @ManyToMany
     private List<Team> teams;
-
-    @JsonIgnore
-    private boolean deleted;
-
-    @JsonIgnore
-    private Date deleteDate;
 
     public Competition() {
     }
@@ -101,21 +93,5 @@ public class Competition implements Serializable {
 
     public void setTeams(List<Team> teams) {
         this.teams = teams;
-    }
-
-    public boolean isDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
-    }
-
-    public Date getDeleteDate() {
-        return deleteDate;
-    }
-
-    public void setDeleteDate(Date deleteDate) {
-        this.deleteDate = deleteDate;
     }
 }

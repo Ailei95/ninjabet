@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity(name = "RESULTS")
-public class Result implements Serializable {
+public class Result extends DeleteManagerEntity implements Serializable {
 
     @Id
     private Long id;
@@ -21,12 +21,6 @@ public class Result implements Serializable {
     private Integer guestScore;
 
     private String status;
-
-    @JsonIgnore
-    private boolean deleted;
-
-    @JsonIgnore
-    private Date deleteDate;
 
     public Result() {
     }
@@ -72,21 +66,5 @@ public class Result implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public boolean isDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
-    }
-
-    public Date getDeleteDate() {
-        return deleteDate;
-    }
-
-    public void setDeleteDate(Date deleteDate) {
-        this.deleteDate = deleteDate;
     }
 }

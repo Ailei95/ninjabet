@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity(name = "MATCHES")
-public class Match implements Serializable {
+public class Match extends DeleteManagerEntity implements Serializable {
 
     @Id
     @GeneratedValue
@@ -23,12 +23,6 @@ public class Match implements Serializable {
 
     @ManyToOne
     private Matchday matchday;
-
-    @JsonIgnore
-    private boolean deleted;
-
-    @JsonIgnore
-    private Date deleteDate;
 
     public Match() {
     }
@@ -78,21 +72,5 @@ public class Match implements Serializable {
 
     public void setMatchday(Matchday matcheay) {
         this.matchday = matcheay;
-    }
-
-    public boolean isDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
-    }
-
-    public Date getDeleteDate() {
-        return deleteDate;
-    }
-
-    public void setDeleteDate(Date deleteDate) {
-        this.deleteDate = deleteDate;
     }
 }
