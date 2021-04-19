@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
-@RequestMapping("/matches")
+@RequestMapping("/api")
 public class MatchController {
 
     private final MatchService matchService;
@@ -16,27 +16,27 @@ public class MatchController {
     @Autowired
     public MatchController(MatchService matchService) { this.matchService = matchService; }
 
-    @GetMapping("/")
+    @GetMapping(value = {"/matches/", "/admin/matches/"})
     Iterable<Match> getMatches() {
         return this.matchService.getMatches();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(value = {"/matches/{id}", "/admin/matches/{id}"})
     Match getMatchById(@PathVariable Long id) {
         return this.matchService.getMatchById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Match not found"));
     }
 
-    @PostMapping("/")
+    @PostMapping("/admin/matches/")
     Match addMatch(@RequestBody Match match) {
         return this.matchService.addMatch(match);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/admin/matches/{id}")
     Match updateMatch(@PathVariable Long id, @RequestBody Match match) {
         return this.matchService.updateMatch(id, match).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Match not found"));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/admin/matches/{id}")
     void deleteMatch(@PathVariable Long id) {
         if (!this.matchService.deleteMatch(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Match not found");
