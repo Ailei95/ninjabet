@@ -14,7 +14,7 @@ public abstract class DeleteManagerService<T extends DeleteManagerEntity, ID, C 
 
     protected final C crudRepository;
 
-    private final UserService userService;
+    protected final UserService userService;
 
     public DeleteManagerService(
             C crudRepository,
@@ -31,26 +31,9 @@ public abstract class DeleteManagerService<T extends DeleteManagerEntity, ID, C 
             return false;
         }
 
-        if (deleted) {
-            local.get().setDeleteDate(new Date());
-        } else {
-            local.get().setDeleteDate(null);
-        }
+        local.get().setDeleteDate(deleted ? new Date() : null);
 
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        String username;
-        if (principal instanceof UserDetails) {
-            username = ((UserDetails)principal).getUsername();
-        } else {
-            username = principal.toString();
-        }
-
-        Optional<User> user = userService.getUserByEmail(username);
-
-//        if (user.isPresent()) {
-//            local.get().setLastDeleteActionUser(user.get());
-//        }
+        Optional<User> user = this.getCurrentUser();
 
         user.ifPresent(value -> local.get().setLastDeleteActionUser(value));
 
@@ -59,5 +42,18 @@ public abstract class DeleteManagerService<T extends DeleteManagerEntity, ID, C 
         this.crudRepository.save(local.get());
 
         return true;
+    }
+
+    private Optional<User> getCurrentUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username;
+
+        if (principal instanceof UserDetails) {
+            username = ((UserDetails)principal).getUsername();
+        } else {
+            username = principal.toString();
+        }
+
+        return userService.getUserByEmail(username);
     }
 }

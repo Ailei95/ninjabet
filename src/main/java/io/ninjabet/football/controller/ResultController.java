@@ -1,6 +1,8 @@
 package io.ninjabet.football.controller;
 
+import io.ninjabet.football.entity.Match;
 import io.ninjabet.football.entity.Result;
+import io.ninjabet.football.service.MatchService;
 import io.ninjabet.football.service.ResultService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,8 +19,16 @@ public class ResultController {
 
     private final ResultService resultService;
 
+    // private final MatchService matchService;
+
     @Autowired
-    public ResultController(ResultService resultService) { this.resultService = resultService; }
+    public ResultController(
+            ResultService resultService
+            // MatchService matchService
+    ) {
+        this.resultService = resultService;
+        // this.matchService = matchService;
+    }
 
     @GetMapping(value = {"/results/", "/admin/results/"})
     Iterable<Result> getResults() {
@@ -56,8 +66,10 @@ public class ResultController {
 
     @DeleteMapping("/admin/results/{matchId}")
     void deleteResult(@PathVariable Long matchId) {
-        if (!this.resultService.deleteResult(matchId)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Result not found");
-        }
+//        Optional<Match> localMatch = this.matchService.getMatchById(matchId);
+//
+//        if (localMatch.isPresent() && !this.resultService.deleteResult(localMatch.get())) {
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Result not found");
+//        }
     }
 }

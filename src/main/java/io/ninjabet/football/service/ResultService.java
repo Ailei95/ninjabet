@@ -31,12 +31,6 @@ public class ResultService extends DeleteManagerService<Result, Match, ResultRep
     public Optional<Result> getResultByMatch(Long matchId) {
         Optional<Match> localMatch = this.matchService.getMatchById(matchId);
 
-//        if (!localMatch.isPresent()) {
-//            return Optional.empty();
-//        }
-//
-//        return this.resultRepository.findById(localMatch.get());
-
         return localMatch.flatMap(this.crudRepository::findById);
     }
 
@@ -60,13 +54,11 @@ public class ResultService extends DeleteManagerService<Result, Match, ResultRep
         return Optional.of(this.crudRepository.save(result));
     }
 
-    public boolean deleteResult(Long matchId) {
-        Optional<Match> localMatch = this.matchService.getMatchById(matchId);
-        return localMatch.filter(match -> this.setEntityDeleted(match, true)).isPresent();
+    public boolean deleteResult(Match match) {
+        return this.setEntityDeleted(match, true);
     }
 
-    public boolean restoreResult(Long matchId) {
-        Optional<Match> localMatch = this.matchService.getMatchById(matchId);
-        return localMatch.filter(match -> this.setEntityDeleted(match, false)).isPresent();
+    public boolean restoreResult(Match match) {
+        return this.setEntityDeleted(match, false);
     }
 }
