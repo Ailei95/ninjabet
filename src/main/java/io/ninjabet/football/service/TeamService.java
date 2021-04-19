@@ -4,24 +4,22 @@ import io.ninjabet.football.entity.Team;
 import io.ninjabet.football.repository.TeamRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.Optional;
 
 @Service
 public class TeamService {
 
     private final TeamRepository teamRepository;
-    private final CompetitionService competitionService;
 
     public TeamService(
-            TeamRepository teamRepository,
-            CompetitionService competitionService
+            TeamRepository teamRepository
     ) {
         this.teamRepository = teamRepository;
-        this.competitionService = competitionService;
     }
 
     public Iterable<Team> getTeams() {
-        return this.teamRepository.findAll();
+        return this.teamRepository.findAllByDeletedFalse();
     }
 
     public Optional<Team> getTeamById(Long id) {
@@ -46,13 +44,29 @@ public class TeamService {
     }
 
     public boolean deleteTeam(Long id) {
+        return this.setTeamIsDeleted(id, true);
+    }
+
+    public boolean restoreTeam(Long id) {
+        return this.setTeamIsDeleted(id, false);
+    }
+
+    private boolean setTeamIsDeleted(Long id, boolean deleted) {
         Optional<Team> localTeam = this.teamRepository.findById(id);
 
         if (!localTeam.isPresent()) {
             return false;
         }
 
-        this.teamRepository.delete(localTeam.get());
+        if (deleted) {
+            localTeam.get().setDeleteDate(new Date());
+        } else {
+            localTeam.get().setDeleteDate(null);
+        }
+
+        localTeam.get().setDeleted(deleted);
+
+        this.teamRepository.save(localTeam.get());
 
         return true;
     }

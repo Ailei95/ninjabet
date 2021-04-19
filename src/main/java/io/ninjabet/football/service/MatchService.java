@@ -5,6 +5,7 @@ import io.ninjabet.football.repository.MatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -16,7 +17,7 @@ public class MatchService {
     public MatchService(MatchRepository matchRepository) { this.matchRepository = matchRepository; }
 
     public Iterable<Match> getMatches() {
-        return this.matchRepository.findAll();
+        return this.matchRepository.findAllByDeletedFalse();
     }
 
     public Optional<Match> getMatchById(Long id) {
@@ -43,13 +44,29 @@ public class MatchService {
     }
 
     public boolean deleteMatch(Long id) {
+        return this.setMatchIsDeleted(id, true);
+    }
+
+    public boolean restoreMatch(Long id) {
+        return this.setMatchIsDeleted(id, false);
+    }
+
+    private boolean setMatchIsDeleted(Long id, boolean deleted) {
         Optional<Match> localMatch = this.matchRepository.findById(id);
 
         if (!localMatch.isPresent()) {
             return false;
         }
 
-        this.matchRepository.delete(localMatch.get());
+        if (deleted) {
+            localMatch.get().setDeleteDate(new Date());
+        } else {
+            localMatch.get().setDeleteDate(null);
+        }
+
+        localMatch.get().setDeleted(deleted);
+
+        this.matchRepository.save(localMatch.get());
 
         return true;
     }

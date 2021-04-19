@@ -6,6 +6,7 @@ import io.ninjabet.football.repository.MatchdayRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.Optional;
 
@@ -25,7 +26,7 @@ public class MatchdayService {
     }
 
     public Iterable<Matchday> getMatchdays() {
-        return this.matchdayRepository.findAll();
+        return this.matchdayRepository.findAllByDeletedFalse();
     }
 
     public Iterable<Matchday> getMatchdaysByCompetition(Long competitionId) {
@@ -62,13 +63,29 @@ public class MatchdayService {
     }
 
     public boolean deleteMatchday(Long id) {
+        return this.setMatchdayIsDeleted(id, true);
+    }
+
+    public boolean restoreMatchday(Long id) {
+        return this.setMatchdayIsDeleted(id, false);
+    }
+
+    private boolean setMatchdayIsDeleted(Long id, boolean deleted) {
         Optional<Matchday> localMatchday = this.matchdayRepository.findById(id);
 
         if (!localMatchday.isPresent()) {
             return false;
         }
 
-        this.matchdayRepository.delete(localMatchday.get());
+        if (deleted) {
+            localMatchday.get().setDeleteDate(new Date());
+        } else {
+            localMatchday.get().setDeleteDate(null);
+        }
+
+        localMatchday.get().setDeleted(deleted);
+
+        this.matchdayRepository.save(localMatchday.get());
 
         return true;
     }

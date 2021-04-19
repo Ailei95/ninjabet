@@ -6,6 +6,7 @@ import io.ninjabet.football.repository.CompetitionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.Optional;
 
@@ -24,7 +25,7 @@ public class CompetitionService {
     }
 
     public Iterable<Competition> getCompetitions() {
-        return this.competitionRepository.findAll();
+        return this.competitionRepository.findAllByDeletedFalse();
     }
 
     public Optional<Competition> getCompetitionById(Long id) {
@@ -63,13 +64,29 @@ public class CompetitionService {
     }
 
     public boolean deleteCompetition(Long id) {
+        return this.setCompetitionIsDeleted(id, true);
+    }
+
+    public boolean restoreCompetition(Long id) {
+        return this.setCompetitionIsDeleted(id, false);
+    }
+
+    private boolean setCompetitionIsDeleted(Long id, boolean deleted) {
         Optional<Competition> localCompetition = this.competitionRepository.findById(id);
 
         if (!localCompetition.isPresent()) {
             return false;
         }
 
-        this.competitionRepository.delete(localCompetition.get());
+        if (deleted) {
+            localCompetition.get().setDeleteDate(new Date());
+        } else {
+            localCompetition.get().setDeleteDate(null);
+        }
+
+        localCompetition.get().setDeleted(deleted);
+
+        this.competitionRepository.save(localCompetition.get());
 
         return true;
     }

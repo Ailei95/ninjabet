@@ -7,5 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MatchdayRepository extends CrudRepository<Matchday, Long> {
+    Iterable<Matchday> findAllByDeletedFalse();
+
     Iterable<Matchday> findByCompetition(Competition competition);
 }

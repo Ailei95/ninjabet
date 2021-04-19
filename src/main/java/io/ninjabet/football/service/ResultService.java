@@ -6,6 +6,7 @@ import io.ninjabet.football.repository.ResultRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -25,7 +26,7 @@ public class ResultService {
     }
 
     public Iterable<Result> getResults() {
-        return this.resultRepository.findAll();
+        return this.resultRepository.findAllByDeletedFalse();
     }
 
     public Optional<Result> getResultByMatch(Long matchId) {
@@ -61,13 +62,29 @@ public class ResultService {
     }
 
     public boolean deleteResult(Long matchId) {
-        Optional<Result> localResult = this.getResultByMatch(matchId);
+        return this.setResultIsDeleted(matchId, true);
+    }
+
+    public boolean restoreResult(Long matchId) {
+        return this.setResultIsDeleted(matchId, false);
+    }
+
+    private boolean setResultIsDeleted(Long id, boolean deleted) {
+        Optional<Result> localResult = this.getResultByMatch(id);
 
         if (!localResult.isPresent()) {
             return false;
         }
 
-        this.resultRepository.delete(localResult.get());
+        if (deleted) {
+            localResult.get().setDeleteDate(new Date());
+        } else {
+            localResult.get().setDeleteDate(null);
+        }
+
+        localResult.get().setDeleted(deleted);
+
+        this.resultRepository.save(localResult.get());
 
         return true;
     }

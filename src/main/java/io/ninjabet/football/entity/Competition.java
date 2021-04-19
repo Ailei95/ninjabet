@@ -1,5 +1,7 @@
 package io.ninjabet.football.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -27,6 +29,12 @@ public class Competition implements Serializable {
     @ManyToMany
     private List<Team> teams;
 
+    @JsonIgnore
+    private boolean deleted;
+
+    @JsonIgnore
+    private Date deleteDate;
+
     public Competition() {
     }
 
@@ -39,9 +47,13 @@ public class Competition implements Serializable {
         this.teams = teams;
     }
 
-    public Long getId() { return id; }
+    public Long getId() {
+        return id;
+    }
 
-    public void setId(Long id) { this.id = id; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -51,13 +63,21 @@ public class Competition implements Serializable {
         this.name = name;
     }
 
-    public Date getFromDate() { return fromDate; }
+    public Date getFromDate() {
+        return fromDate;
+    }
 
-    public void setFromDate(Date fromDate) { this.fromDate = fromDate; }
+    public void setFromDate(Date fromDate) {
+        this.fromDate = fromDate;
+    }
 
-    public Date getToDate() { return toDate; }
+    public Date getToDate() {
+        return toDate;
+    }
 
-    public void setToDate(Date toDate) { this.toDate = toDate; }
+    public void setToDate(Date toDate) {
+        this.toDate = toDate;
+    }
 
     public String getImageUrl() {
         return imageUrl;
@@ -81,5 +101,21 @@ public class Competition implements Serializable {
 
     public void setTeams(List<Team> teams) {
         this.teams = teams;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    public Date getDeleteDate() {
+        return deleteDate;
+    }
+
+    public void setDeleteDate(Date deleteDate) {
+        this.deleteDate = deleteDate;
     }
 }

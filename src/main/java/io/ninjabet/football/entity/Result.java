@@ -1,9 +1,12 @@
 package io.ninjabet.football.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
-@Entity
+@Entity(name = "RESULTS")
 public class Result implements Serializable {
 
     @Id
@@ -18,6 +21,12 @@ public class Result implements Serializable {
     private Integer guestScore;
 
     private String status;
+
+    @JsonIgnore
+    private boolean deleted;
+
+    @JsonIgnore
+    private Date deleteDate;
 
     public Result() {
     }
@@ -63,5 +72,21 @@ public class Result implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    public Date getDeleteDate() {
+        return deleteDate;
+    }
+
+    public void setDeleteDate(Date deleteDate) {
+        this.deleteDate = deleteDate;
     }
 }
