@@ -3,21 +3,21 @@ package io.ninjabet.football.service;
 import io.ninjabet.auth.entity.User;
 import io.ninjabet.auth.service.UserService;
 import io.ninjabet.football.entity.DeleteManagerEntity;
-import org.springframework.data.repository.CrudRepository;
+import io.ninjabet.football.repository.DeleteManagerCrudRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Date;
 import java.util.Optional;
 
-public abstract class DeleteManagerService<T extends DeleteManagerEntity, ID> {
+public abstract class DeleteManagerService<T extends DeleteManagerEntity, ID, C extends DeleteManagerCrudRepository<T, ID>> {
 
-    protected final CrudRepository<T, ID> crudRepository;
+    protected final C crudRepository;
 
     private final UserService userService;
 
     public DeleteManagerService(
-            CrudRepository<T, ID> crudRepository,
+            C crudRepository,
             UserService userService
     ) {
         this.crudRepository = crudRepository;

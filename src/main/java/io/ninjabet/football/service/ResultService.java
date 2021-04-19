@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class ResultService extends DeleteManagerService<Result, Match> {
+public class ResultService extends DeleteManagerService<Result, Match, ResultRepository> {
 
     private final MatchService matchService;
 
@@ -25,7 +25,7 @@ public class ResultService extends DeleteManagerService<Result, Match> {
     }
 
     public Iterable<Result> getResults() {
-        return ((ResultRepository) this.crudRepository).findAllByDeletedFalse();
+        return this.crudRepository.findAllByDeletedFalse();
     }
 
     public Optional<Result> getResultByMatch(Long matchId) {

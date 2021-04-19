@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class TeamService extends DeleteManagerService<Team, Long> {
+public class TeamService extends DeleteManagerService<Team, Long, TeamRepository> {
 
     @Autowired
     public TeamService(
@@ -20,7 +20,7 @@ public class TeamService extends DeleteManagerService<Team, Long> {
     }
 
     public Iterable<Team> getTeams() {
-        return ((TeamRepository) this.crudRepository).findAllByDeletedFalse();
+        return this.crudRepository.findAllByDeletedFalse();
     }
 
     public Optional<Team> getTeamById(Long id) {

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class MatchService extends DeleteManagerService<Match, Long> {
+public class MatchService extends DeleteManagerService<Match, Long, MatchRepository> {
 
     @Autowired
     public MatchService(
@@ -20,7 +20,7 @@ public class MatchService extends DeleteManagerService<Match, Long> {
     }
 
     public Iterable<Match> getMatches() {
-        return ((MatchRepository) this.crudRepository).findAllByDeletedFalse();
+        return this.crudRepository.findAllByDeletedFalse();
     }
 
     public Optional<Match> getMatchById(Long id) {

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class CountryService extends DeleteManagerService<Country, Long> {
+public class CountryService extends DeleteManagerService<Country, Long, CountryRepository> {
 
     @Autowired
     public CountryService(
@@ -20,7 +20,7 @@ public class CountryService extends DeleteManagerService<Country, Long> {
     }
 
     public Iterable<Country> getCountries() {
-        return ((CountryRepository) this.crudRepository).findAllByDeletedFalse();
+        return this.crudRepository.findAllByDeletedFalse();
     }
 
     public Optional<Country> getCountryById(Long id) {

@@ -11,7 +11,7 @@ import java.util.LinkedList;
 import java.util.Optional;
 
 @Service
-public class CompetitionService extends DeleteManagerService<Competition, Long> {
+public class CompetitionService extends DeleteManagerService<Competition, Long, CompetitionRepository> {
 
     private final CountryService countryService;
 
@@ -26,7 +26,7 @@ public class CompetitionService extends DeleteManagerService<Competition, Long> 
     }
 
     public Iterable<Competition> getCompetitions() {
-        return ((CompetitionRepository) this.crudRepository).findAllByDeletedFalse();
+        return this.crudRepository.findAllByDeletedFalse();
     }
 
     public Optional<Competition> getCompetitionById(Long id) {
@@ -40,7 +40,7 @@ public class CompetitionService extends DeleteManagerService<Competition, Long> 
             return new LinkedList<>();
         }
 
-        return ((CompetitionRepository) this.crudRepository).findByCountry(localCountry.get());
+        return this.crudRepository.findByCountry(localCountry.get());
     }
 
     public Competition addCompetition(Competition competition) {

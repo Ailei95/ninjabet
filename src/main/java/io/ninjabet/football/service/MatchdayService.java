@@ -11,7 +11,7 @@ import java.util.LinkedList;
 import java.util.Optional;
 
 @Service
-public class MatchdayService extends DeleteManagerService<Matchday, Long> {
+public class MatchdayService extends DeleteManagerService<Matchday, Long, MatchdayRepository> {
 
     private final CompetitionService competitionService;
 
@@ -26,7 +26,7 @@ public class MatchdayService extends DeleteManagerService<Matchday, Long> {
     }
 
     public Iterable<Matchday> getMatchdays() {
-        return ((MatchdayRepository) this.crudRepository).findAllByDeletedFalse();
+        return this.crudRepository.findAllByDeletedFalse();
     }
 
     public Iterable<Matchday> getMatchdaysByCompetition(Long competitionId) {
@@ -36,7 +36,7 @@ public class MatchdayService extends DeleteManagerService<Matchday, Long> {
             return new LinkedList<>();
         }
 
-        return ((MatchdayRepository) this.crudRepository).findByCompetition(localCompetition.get());
+        return this.crudRepository.findByCompetition(localCompetition.get());
     }
 
     public Optional<Matchday> getMatchdayById(Long id) {
