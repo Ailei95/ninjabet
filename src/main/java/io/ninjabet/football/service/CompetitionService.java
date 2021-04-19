@@ -32,13 +32,13 @@ public class CompetitionService {
     }
 
     public Iterable<Competition> getCompetitionsByCountry(Long countryId) {
-        Optional<Country> country = this.countryService.getCountryById(countryId);
+        Optional<Country> localCountry = this.countryService.getCountryById(countryId);
 
-        if (!country.isPresent()) {
+        if (!localCountry.isPresent()) {
             return new LinkedList<>();
         }
 
-        return this.competitionRepository.findByCountry(country.get());
+        return this.competitionRepository.findByCountry(localCountry.get());
     }
 
     public Competition addCompetition(Competition competition) {
@@ -63,13 +63,13 @@ public class CompetitionService {
     }
 
     public boolean deleteCompetition(Long id) {
-        Optional<Competition> competition = this.competitionRepository.findById(id);
+        Optional<Competition> localCompetition = this.competitionRepository.findById(id);
 
-        if (!competition.isPresent()) {
+        if (!localCompetition.isPresent()) {
             return false;
         }
 
-        this.competitionRepository.delete(competition.get());
+        this.competitionRepository.delete(localCompetition.get());
 
         return true;
     }

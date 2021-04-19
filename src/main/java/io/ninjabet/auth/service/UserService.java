@@ -5,6 +5,7 @@ import io.ninjabet.auth.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -19,7 +20,16 @@ public class UserService {
         return this.userRepository.findById(email);
     }
 
-    public User addUser(User user) {
-        return this.userRepository.save(user);
+    public Optional<User> addUser(User user) {
+        Optional<User> localUser = getUserByEmail(user.getEmail());
+
+        if (localUser.isPresent()) {
+            return Optional.empty();
+        }
+
+        user.setAdmin(false);
+        user.setRegistrationDate(new Date());
+
+        return Optional.of(this.userRepository.save(user));
     }
 }

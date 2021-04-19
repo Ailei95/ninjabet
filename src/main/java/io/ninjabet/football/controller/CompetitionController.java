@@ -30,7 +30,7 @@ public class CompetitionController {
             return this.competitionService.getCompetitionsByCountry(countryId.get());
         }
 
-        return new LinkedList<>();
+        return this.getCompetitions();
     }
 
     @GetMapping(value = {"/competitions/{id}", "/admin/competitions/{id}"})

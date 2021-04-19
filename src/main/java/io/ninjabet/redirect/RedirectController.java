@@ -9,6 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class RedirectController {
     @GetMapping("/application/**")
     public ModelAndView redirectWithUsingRedirectPrefix(ModelMap model) {
+        //noinspection SpringMVCViewInspection
         return new ModelAndView("redirect:/", model);
     }
 }

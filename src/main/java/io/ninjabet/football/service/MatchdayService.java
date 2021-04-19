@@ -29,13 +29,13 @@ public class MatchdayService {
     }
 
     public Iterable<Matchday> getMatchdaysByCompetition(Long competitionId) {
-        Optional<Competition> competition = this.competitionService.getCompetitionById(competitionId);
+        Optional<Competition> localCompetition = this.competitionService.getCompetitionById(competitionId);
 
-        if (!competition.isPresent()) {
+        if (!localCompetition.isPresent()) {
             return new LinkedList<>();
         }
 
-        return this.matchdayRepository.findByCompetition(competition.get());
+        return this.matchdayRepository.findByCompetition(localCompetition.get());
     }
 
     public Optional<Matchday> getMatchdayById(Long id) {
@@ -62,13 +62,13 @@ public class MatchdayService {
     }
 
     public boolean deleteMatchday(Long id) {
-        Optional<Matchday> matchday = this.matchdayRepository.findById(id);
+        Optional<Matchday> localMatchday = this.matchdayRepository.findById(id);
 
-        if (!matchday.isPresent()) {
+        if (!localMatchday.isPresent()) {
             return false;
         }
 
-        this.matchdayRepository.delete(matchday.get());
+        this.matchdayRepository.delete(localMatchday.get());
 
         return true;
     }

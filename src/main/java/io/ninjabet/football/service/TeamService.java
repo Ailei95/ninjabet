@@ -46,13 +46,13 @@ public class TeamService {
     }
 
     public boolean deleteTeam(Long id) {
-        Optional<Team> team = this.teamRepository.findById(id);
+        Optional<Team> localTeam = this.teamRepository.findById(id);
 
-        if (!team.isPresent()) {
+        if (!localTeam.isPresent()) {
             return false;
         }
 
-        this.teamRepository.delete(team.get());
+        this.teamRepository.delete(localTeam.get());
 
         return true;
     }

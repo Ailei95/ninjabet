@@ -43,13 +43,13 @@ public class MatchService {
     }
 
     public boolean deleteMatch(Long id) {
-        Optional<Match> match = this.matchRepository.findById(id);
+        Optional<Match> localMatch = this.matchRepository.findById(id);
 
-        if (!match.isPresent()) {
+        if (!localMatch.isPresent()) {
             return false;
         }
 
-        this.matchRepository.delete(match.get());
+        this.matchRepository.delete(localMatch.get());
 
         return true;
     }

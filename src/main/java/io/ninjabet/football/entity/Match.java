@@ -1,10 +1,11 @@
 package io.ninjabet.football.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity(name = "MATCHES")
-public class Match {
+public class Match implements Serializable {
 
     @Id
     @GeneratedValue

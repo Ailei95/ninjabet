@@ -42,13 +42,13 @@ public class CountryService {
     }
 
     public boolean deleteCountry(Long id) {
-        Optional<Country> country = this.countryRepository.findById(id);
+        Optional<Country> localCountry = this.countryRepository.findById(id);
 
-        if (!country.isPresent()) {
+        if (!localCountry.isPresent()) {
             return false;
         }
 
-        this.countryRepository.delete(country.get());
+        this.countryRepository.delete(localCountry.get());
 
         return true;
     }
