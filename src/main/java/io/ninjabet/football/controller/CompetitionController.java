@@ -24,8 +24,8 @@ public class CompetitionController {
     }
 
     @GetMapping(value = {"/competitions", "/admin/competitions"})
-    Iterable<Competition> getCompetitionsByCountry(@RequestParam Optional<Long> countryId) {
-        if (countryId.isPresent()) { return this.competitionService.getCompetitionsByCountry(countryId.get()); }
+    Iterable<Competition> findByCountry(@RequestParam Optional<Long> countryId) {
+        if (countryId.isPresent()) { return this.competitionService.findByCountry(countryId.get()); }
 
         return this.findAll();
     }

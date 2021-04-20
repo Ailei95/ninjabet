@@ -9,8 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -37,10 +35,6 @@ public class ResultController {
 
     @GetMapping(value = {"/results/{matchId}", "/admin/results/{matchId}"})
     Result findById(@PathVariable Long matchId) {
-        Optional<Match> localMatch = this.matchService.findById(matchId);
-
-        if (!localMatch.isPresent()) { throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Match not found"); }
-
         return this.resultService.findById(matchId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Result not found"));
     }
 
@@ -51,8 +45,6 @@ public class ResultController {
 
     @PutMapping("/admin/results/{matchId}")
     Result update(@PathVariable Long matchId, @RequestBody Result result) {
-        Optional<Match> localMatch = this.matchService.findById(matchId);
-
         return this.resultService.update(matchId, result).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Result not found"));
     }
 

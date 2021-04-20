@@ -25,7 +25,7 @@ public class MatchdayService extends DeleteManagerCrudService<Matchday, Long, Ma
         this.competitionService = competitionService;
     }
 
-    public Iterable<Matchday> getMatchdaysByCompetition(Long competitionId) {
+    public Iterable<Matchday> findByCompetition(Long competitionId) {
         Optional<Competition> localCompetition = this.competitionService.findById(competitionId);
 
         if (!localCompetition.isPresent()) { return new LinkedList<>(); }

@@ -25,7 +25,7 @@ public class CompetitionService extends DeleteManagerCrudService<Competition, Lo
         this.countryService = countryService;
     }
 
-    public Iterable<Competition> getCompetitionsByCountry(Long countryId) {
+    public Iterable<Competition> findByCountry(Long countryId) {
         Optional<Country> localCountry = this.countryService.findById(countryId);
 
         if (!localCountry.isPresent()) { return new LinkedList<>(); }

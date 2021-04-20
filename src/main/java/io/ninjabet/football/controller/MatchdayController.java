@@ -24,8 +24,8 @@ public class MatchdayController {
     }
 
     @GetMapping(value = {"/matchdays", "/admin/matchdays"})
-    Iterable<Matchday> getMatchdaysByCompetition(@RequestParam Long competitionId) {
-        return this.matchdayService.getMatchdaysByCompetition(competitionId);
+    Iterable<Matchday> findByCompetition(@RequestParam Long competitionId) {
+        return this.matchdayService.findByCompetition(competitionId);
     }
 
     @PostMapping("/admin/matchdays/")

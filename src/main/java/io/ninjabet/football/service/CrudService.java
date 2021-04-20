@@ -27,9 +27,14 @@ public abstract class CrudService<T extends AbstractEntity<ID>, ID,  R extends C
         return Optional.of(this.crudRepository.save(t));
     }
 
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean delete(ID id) {
-        return this.delete(id);
-    }
+        Optional<T> local = this.crudRepository.findById(id);
 
-    // public boolean restore(ID id) { return this.setEntityDeleted(id, false); }
+        if (!local.isPresent()) { return false; }
+
+        this.crudRepository.delete(local.get());
+
+        return true;
+    }
 }
