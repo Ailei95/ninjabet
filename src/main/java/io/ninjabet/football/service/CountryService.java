@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CountryService extends CrudService<Country, Long, CountryRepository> {
+public class CountryService extends DeleteManagerCrudService<Country, Long, CountryRepository> {
 
     @Autowired
     public CountryService(

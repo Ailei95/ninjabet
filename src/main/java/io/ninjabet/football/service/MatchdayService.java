@@ -11,7 +11,7 @@ import java.util.LinkedList;
 import java.util.Optional;
 
 @Service
-public class MatchdayService extends CrudService<Matchday, Long, MatchdayRepository> {
+public class MatchdayService extends DeleteManagerCrudService<Matchday, Long, MatchdayRepository> {
 
     private final CompetitionService competitionService;
 

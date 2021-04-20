@@ -11,7 +11,7 @@ import java.util.LinkedList;
 import java.util.Optional;
 
 @Service
-public class CompetitionService extends CrudService<Competition, Long, CompetitionRepository> {
+public class CompetitionService extends DeleteManagerCrudService<Competition, Long, CompetitionRepository> {
 
     private final CountryService countryService;
 

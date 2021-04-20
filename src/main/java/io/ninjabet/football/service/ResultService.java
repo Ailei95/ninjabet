@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ResultService extends CrudService<Result, Long, ResultRepository> {
+public class ResultService extends DeleteManagerCrudService<Result, Long, ResultRepository> {
 
     @Autowired
     public ResultService(

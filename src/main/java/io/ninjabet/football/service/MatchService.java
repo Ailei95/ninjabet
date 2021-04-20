@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MatchService extends CrudService<Match, Long, MatchRepository> {
+public class MatchService extends DeleteManagerCrudService<Match, Long, MatchRepository> {
 
     @Autowired
     public MatchService(

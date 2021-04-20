@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TeamService extends CrudService<Team, Long, TeamRepository> {
+public class TeamService extends DeleteManagerCrudService<Team, Long, TeamRepository> {
 
     @Autowired
     public TeamService(
