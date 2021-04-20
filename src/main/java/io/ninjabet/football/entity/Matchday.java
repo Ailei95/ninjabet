@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity(name = "MATCHDAYS")
-public class Matchday extends DeleteManagerEntity implements Serializable {
+public class Matchday extends DeleteManagerEntity implements Serializable, AbstractEntity<Long> {
 
     @Id
     @GeneratedValue

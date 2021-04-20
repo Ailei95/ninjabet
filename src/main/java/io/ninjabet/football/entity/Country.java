@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity(name = "COUNTRIES")
-public class Country extends DeleteManagerEntity implements Serializable {
+public class Country extends DeleteManagerEntity implements Serializable, AbstractEntity<Long> {
 
     @Id
     @GeneratedValue

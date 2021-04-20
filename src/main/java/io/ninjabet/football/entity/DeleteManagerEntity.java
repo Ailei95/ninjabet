@@ -6,10 +6,11 @@ import io.ninjabet.auth.entity.User;
 import javax.persistence.Column;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
+import java.io.Serializable;
 import java.util.Date;
 
 @MappedSuperclass
-public abstract class DeleteManagerEntity {
+public abstract class DeleteManagerEntity<T extends Serializable> {
     @JsonIgnore
     @Column
     protected boolean deleted;

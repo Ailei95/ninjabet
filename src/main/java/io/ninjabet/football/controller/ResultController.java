@@ -35,35 +35,17 @@ public class ResultController {
         return this.resultService.findAll();
     }
 
-    @GetMapping(value = {"/results", "/admin/results"})
-    Iterable<Result> findByMatchId(@RequestParam Optional<Long> matchId) {
-        if (matchId.isPresent()) {
-            List<Result> localResults = new LinkedList<>();
-            Optional<Result> localResult = this.resultService.findByMatchId(matchId.get());
-
-            localResult.ifPresent(localResults::add);
-
-            return localResults;
-        }
-
-        return this.resultService.findAll();
-    }
-
     @GetMapping(value = {"/results/{matchId}", "/admin/results/{matchId}"})
     Result findById(@PathVariable Long matchId) {
         Optional<Match> localMatch = this.matchService.findById(matchId);
 
         if (!localMatch.isPresent()) { throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Match not found"); }
 
-        return this.resultService.findById(localMatch.get()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Result not found"));
+        return this.resultService.findById(matchId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Result not found"));
     }
 
     @PostMapping("/admin/results/")
     Result add(@RequestBody Result result) {
-        Optional<Match> localMatch = this.matchService.findById(result.getId());
-
-        if (!localMatch.isPresent()) { throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Math not found"); }
-
         return this.resultService.add(result);
     }
 
@@ -71,14 +53,14 @@ public class ResultController {
     Result update(@PathVariable Long matchId, @RequestBody Result result) {
         Optional<Match> localMatch = this.matchService.findById(matchId);
 
-        return this.resultService.update(localMatch.get(), result).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Result not found"));
+        return this.resultService.update(matchId, result).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Result not found"));
     }
 
     @DeleteMapping("/admin/results/{matchId}")
     void delete(@PathVariable Long matchId) {
         Optional<Match> localMatch = this.matchService.findById(matchId);
 
-        if (!localMatch.isPresent() || !this.resultService.delete(localMatch.get())) {
+        if (!localMatch.isPresent() || !this.resultService.delete(matchId)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Result or match not found");
         }
     }

@@ -1,13 +1,14 @@
 package io.ninjabet.football.service;
 
 import io.ninjabet.auth.service.UserService;
+import io.ninjabet.football.entity.AbstractEntity;
 import io.ninjabet.football.entity.DeleteManagerEntity;
 import io.ninjabet.football.repository.DeleteManagerRepository;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;
 
-public abstract class CrudService<T extends DeleteManagerEntity, ID,  R extends CrudRepository<T, ID> & DeleteManagerRepository<T>>
+public abstract class CrudService<T extends DeleteManagerEntity & AbstractEntity<ID>, ID,  R extends CrudRepository<T, ID> & DeleteManagerRepository<T>>
         extends DeleteManagerService<T, ID, R>{
     public CrudService(R crudRepository, UserService userService) {
         super(crudRepository, userService);
@@ -24,7 +25,7 @@ public abstract class CrudService<T extends DeleteManagerEntity, ID,  R extends 
     public Optional<T> update(ID id, T t) {
         Optional<T> local = this.crudRepository.findById(id);
 
-        if (!local.isPresent()) { return Optional.empty(); }
+        if (!local.isPresent() || !t.getId().equals(id)) { return Optional.empty(); }
 
         return Optional.of(this.crudRepository.save(t));
     }
