@@ -11,7 +11,7 @@ import java.util.LinkedList;
 import java.util.Optional;
 
 @Service
-public class MatchdayService extends DeleteManagerService<Matchday, Long, MatchdayRepository> {
+public class MatchdayService extends CrudService<Matchday, Long, MatchdayRepository> {
 
     private final CompetitionService competitionService;
 
@@ -25,48 +25,11 @@ public class MatchdayService extends DeleteManagerService<Matchday, Long, Matchd
         this.competitionService = competitionService;
     }
 
-    public Iterable<Matchday> getMatchdays() {
-        return this.crudRepository.findAllByDeletedFalse();
-    }
-
     public Iterable<Matchday> getMatchdaysByCompetition(Long competitionId) {
-        Optional<Competition> localCompetition = this.competitionService.getCompetitionById(competitionId);
+        Optional<Competition> localCompetition = this.competitionService.findById(competitionId);
 
-        if (!localCompetition.isPresent()) {
-            return new LinkedList<>();
-        }
+        if (!localCompetition.isPresent()) { return new LinkedList<>(); }
 
         return this.crudRepository.findByCompetition(localCompetition.get());
-    }
-
-    public Optional<Matchday> getMatchdayById(Long id) {
-        return this.crudRepository.findById(id);
-    }
-
-    public Matchday addMatchday(Matchday matchday) {
-        return this.crudRepository.save(matchday);
-    }
-
-    public Optional<Matchday> updateMatchday(Long id, Matchday matchday) {
-        Optional<Matchday> localMatchDay = this.crudRepository.findById(id);
-
-        if (!localMatchDay.isPresent()) {
-            return Optional.empty();
-        }
-
-        localMatchDay.get().setName(matchday.getName());
-        localMatchDay.get().setCompetition(matchday.getCompetition());
-        localMatchDay.get().setFromDate(matchday.getFromDate());
-        localMatchDay.get().setToDate(matchday.getToDate());
-
-        return Optional.of(this.crudRepository.save(localMatchDay.get()));
-    }
-
-    public boolean deleteMatchday(Long id) {
-        return this.setEntityDeleted(id, true);
-    }
-
-    public boolean restoreMatchday(Long id) {
-        return this.setEntityDeleted(id, false);
     }
 }

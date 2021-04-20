@@ -14,13 +14,13 @@ public class MatchdayController {
     public MatchdayController(MatchdayService matchDayService) { this.matchdayService = matchDayService; }
 
     @GetMapping(value = {"/matchdays/", "/admin/matchdays/"})
-    Iterable<Matchday> getMatchdays() {
-        return this.matchdayService.getMatchdays();
+    Iterable<Matchday> findAll() {
+        return this.matchdayService.findAll();
     }
 
     @GetMapping(value = {"/matchdays/{id}", "/admin/matchdays/{id}"})
-    Matchday getMatchDayById(@PathVariable Long id) {
-        return this.matchdayService.getMatchdayById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "MatchDay Not found"));
+    Matchday findById(@PathVariable Long id) {
+        return this.matchdayService.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "MatchDay Not found"));
     }
 
     @GetMapping(value = {"/matchdays", "/admin/matchdays"})
@@ -29,18 +29,18 @@ public class MatchdayController {
     }
 
     @PostMapping("/admin/matchdays/")
-    Matchday addMatchday(@RequestBody Matchday matchday) {
-        return this.matchdayService.addMatchday(matchday);
+    Matchday add(@RequestBody Matchday matchday) {
+        return this.matchdayService.add(matchday);
     }
 
     @PutMapping("/admin/matchdays/{id}")
-    Matchday updateMatchday(@PathVariable Long id, @RequestBody Matchday matchday) {
-        return this.matchdayService.updateMatchday(id, matchday).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "MatchDay Not found"));
+    Matchday update(@PathVariable Long id, @RequestBody Matchday matchday) {
+        return this.matchdayService.update(id, matchday).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "MatchDay Not found"));
     }
 
     @DeleteMapping("/admin/matchdays/{id}")
-    void deleteMatchday(@PathVariable Long id) {
-        if (!this.matchdayService.deleteMatchday(id)) {
+    void delete(@PathVariable Long id) {
+        if (!this.matchdayService.delete(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "MatchDay Not found");
         }
     }

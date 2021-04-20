@@ -1,11 +1,7 @@
 package io.ninjabet.football.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.ninjabet.auth.entity.User;
-
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
 
 @Entity(name = "COUNTRIES")
 public class Country extends DeleteManagerEntity implements Serializable {

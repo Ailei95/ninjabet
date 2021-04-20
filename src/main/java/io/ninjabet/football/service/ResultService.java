@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class ResultService extends DeleteManagerService<Result, Match, ResultRepository> {
+public class ResultService extends CrudService<Result, Match, ResultRepository> {
 
     private final MatchService matchService;
 
@@ -24,41 +24,9 @@ public class ResultService extends DeleteManagerService<Result, Match, ResultRep
         this.matchService = matchService;
     }
 
-    public Iterable<Result> getResults() {
-        return this.crudRepository.findAllByDeletedFalse();
-    }
-
-    public Optional<Result> getResultByMatch(Long matchId) {
-        Optional<Match> localMatch = this.matchService.getMatchById(matchId);
+    public Optional<Result> findByMatchId(Long matchId) {
+        Optional<Match> localMatch = this.matchService.findById(matchId);
 
         return localMatch.flatMap(this.crudRepository::findById);
-    }
-
-    public Optional<Result> addResult(Result result) {
-        Optional<Result> localResult = this.getResultByMatch(result.getId());
-
-        if (localResult.isPresent()) {
-            return Optional.empty();
-        }
-
-        return Optional.of(this.crudRepository.save(result));
-    }
-
-    public Optional<Result> updateResult(Long matchId, Result result) {
-        Optional<Result> localResult = this.getResultByMatch(matchId);
-
-        if (!localResult.isPresent()) {
-            return Optional.empty();
-        }
-
-        return Optional.of(this.crudRepository.save(result));
-    }
-
-    public boolean deleteResult(Match match) {
-        return this.setEntityDeleted(match, true);
-    }
-
-    public boolean restoreResult(Match match) {
-        return this.setEntityDeleted(match, false);
     }
 }

@@ -15,28 +15,28 @@ public class TeamController {
     public TeamController(TeamService teamService) { this.teamService = teamService; }
 
     @GetMapping(value = {"/teams/", "/admin/teams/"})
-    Iterable<Team> getTeams() {
-        return this.teamService.getTeams();
+    Iterable<Team> findAll() {
+        return this.teamService.findAll();
     }
 
     @GetMapping(value = {"/teams/{id}", "/admin/teams/{id}"})
-    Team getTeamById(@PathVariable Long id) {
-        return this.teamService.getTeamById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Team not found"));
+    Team findById(@PathVariable Long id) {
+        return this.teamService.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Team not found"));
     }
 
     @PostMapping("/admin/teams/")
-    Team addTeam(@RequestBody Team team) {
-        return this.teamService.addTeam(team);
+    Team add(@RequestBody Team team) {
+        return this.teamService.add(team);
     }
 
     @PutMapping("/admin/teams/{id}")
-    Team updateTeam(@PathVariable Long id, @RequestBody Team team) {
-        return this.teamService.updateTeam(id, team).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Team not found"));
+    Team update(@PathVariable Long id, @RequestBody Team team) {
+        return this.teamService.update(id, team).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Team not found"));
     }
 
     @DeleteMapping("/admin/teams/{id}")
-    void deleteTeam(@PathVariable Long id) {
-        if (!this.teamService.deleteTeam(id)) {
+    void delete(@PathVariable Long id) {
+        if (!this.teamService.delete(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Team not found");
         }
     }

@@ -11,7 +11,7 @@ import java.util.LinkedList;
 import java.util.Optional;
 
 @Service
-public class CompetitionService extends DeleteManagerService<Competition, Long, CompetitionRepository> {
+public class CompetitionService extends CrudService<Competition, Long, CompetitionRepository> {
 
     private final CountryService countryService;
 
@@ -25,50 +25,11 @@ public class CompetitionService extends DeleteManagerService<Competition, Long, 
         this.countryService = countryService;
     }
 
-    public Iterable<Competition> getCompetitions() {
-        return this.crudRepository.findAllByDeletedFalse();
-    }
-
-    public Optional<Competition> getCompetitionById(Long id) {
-        return this.crudRepository.findById(id);
-    }
-
     public Iterable<Competition> getCompetitionsByCountry(Long countryId) {
-        Optional<Country> localCountry = this.countryService.getCountryById(countryId);
+        Optional<Country> localCountry = this.countryService.findById(countryId);
 
-        if (!localCountry.isPresent()) {
-            return new LinkedList<>();
-        }
+        if (!localCountry.isPresent()) { return new LinkedList<>(); }
 
         return this.crudRepository.findByCountry(localCountry.get());
-    }
-
-    public Competition addCompetition(Competition competition) {
-        return this.crudRepository.save(competition);
-    }
-
-    public Optional<Competition> updateCompetition(Long id, Competition competition) {
-        Optional<Competition> localCompetition = this.crudRepository.findById(id);
-
-        if (!localCompetition.isPresent()) {
-            return Optional.empty();
-        }
-
-        localCompetition.get().setName(competition.getName());
-        localCompetition.get().setFromDate(competition.getFromDate());
-        localCompetition.get().setToDate(competition.getToDate());
-        localCompetition.get().setImageUrl(competition.getImageUrl());
-        localCompetition.get().setCountry(competition.getCountry());
-        localCompetition.get().setTeams(competition.getTeams());
-
-        return Optional.of(this.crudRepository.save(localCompetition.get()));
-    }
-
-    public boolean deleteCompetition(Long id) {
-        return this.setEntityDeleted(id, true);
-    }
-
-    public boolean restoreCompetition(Long id) {
-        return this.setEntityDeleted(id, false);
     }
 }

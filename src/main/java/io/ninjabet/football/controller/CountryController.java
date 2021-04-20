@@ -19,28 +19,28 @@ public class CountryController {
     }
 
     @GetMapping(value = {"/countries/", "admin/countries/"})
-    Iterable<Country> getCountries() {
-        return this.countryService.getCountries();
+    Iterable<Country> findAll() {
+        return this.countryService.findAll();
     }
 
     @GetMapping(value = {"/countries/{id}", "admin/countries/{id}"})
-    Country getCountryById(@PathVariable Long id) {
-        return this.countryService.getCountryById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Country not found"));
+    Country findById(@PathVariable Long id) {
+        return this.countryService.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Country not found"));
     }
 
     @PostMapping("/admin/countries/")
-    Country addCountry(@RequestBody Country country) {
-        return this.countryService.addCountry(country);
+    Country add(@RequestBody Country country) {
+        return this.countryService.add(country);
     }
 
     @PutMapping("/admin/countries/{id}")
-    Country updateCountry(@PathVariable Long id, @RequestBody Country country) {
-        return this.countryService.updateCountry(id, country).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Country not found"));
+    Country update(@PathVariable Long id, @RequestBody Country country) {
+        return this.countryService.update(id, country).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Country not found"));
     }
 
     @DeleteMapping("/admin/countries/{id}")
-    void deleteCountry(@PathVariable Long id) {
-        if (!this.countryService.deleteCountry(id)) {
+    void delete(@PathVariable Long id) {
+        if (!this.countryService.delete(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Country not found");
         }
     }

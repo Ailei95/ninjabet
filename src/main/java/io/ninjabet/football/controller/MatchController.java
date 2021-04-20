@@ -17,28 +17,28 @@ public class MatchController {
     public MatchController(MatchService matchService) { this.matchService = matchService; }
 
     @GetMapping(value = {"/matches/", "/admin/matches/"})
-    Iterable<Match> getMatches() {
-        return this.matchService.getMatches();
+    Iterable<Match> findAll() {
+        return this.matchService.findAll();
     }
 
     @GetMapping(value = {"/matches/{id}", "/admin/matches/{id}"})
-    Match getMatchById(@PathVariable Long id) {
-        return this.matchService.getMatchById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Match not found"));
+    Match findById(@PathVariable Long id) {
+        return this.matchService.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Match not found"));
     }
 
     @PostMapping("/admin/matches/")
-    Match addMatch(@RequestBody Match match) {
-        return this.matchService.addMatch(match);
+    Match add(@RequestBody Match match) {
+        return this.matchService.add(match);
     }
 
     @PutMapping("/admin/matches/{id}")
-    Match updateMatch(@PathVariable Long id, @RequestBody Match match) {
-        return this.matchService.updateMatch(id, match).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Match not found"));
+    Match update(@PathVariable Long id, @RequestBody Match match) {
+        return this.matchService.update(id, match).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Match not found"));
     }
 
     @DeleteMapping("/admin/matches/{id}")
-    void deleteMatch(@PathVariable Long id) {
-        if (!this.matchService.deleteMatch(id)) {
+    void delete(@PathVariable Long id) {
+        if (!this.matchService.delete(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Match not found");
         }
     }

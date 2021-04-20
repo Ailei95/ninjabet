@@ -19,37 +19,35 @@ public class CompetitionController {
     public CompetitionController(CompetitionService competitionService) { this.competitionService = competitionService; }
 
     @GetMapping(value = {"/competitions/", "/admin/competitions/"})
-    Iterable<Competition> getCompetitions() {
-        return this.competitionService.getCompetitions();
+    Iterable<Competition> findAll() {
+        return this.competitionService.findAll();
     }
 
     @GetMapping(value = {"/competitions", "/admin/competitions"})
     Iterable<Competition> getCompetitionsByCountry(@RequestParam Optional<Long> countryId) {
-        if (countryId.isPresent()) {
-            return this.competitionService.getCompetitionsByCountry(countryId.get());
-        }
+        if (countryId.isPresent()) { return this.competitionService.getCompetitionsByCountry(countryId.get()); }
 
-        return this.getCompetitions();
+        return this.findAll();
     }
 
     @GetMapping(value = {"/competitions/{id}", "/admin/competitions/{id}"})
-    Competition getCompetitionById(@PathVariable Long id) {
-        return this.competitionService.getCompetitionById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Competition not found"));
+    Competition findById(@PathVariable Long id) {
+        return this.competitionService.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Competition not found"));
     }
 
     @PostMapping("/admin/competitions/")
-    Competition addCompetition(@RequestBody Competition competition) {
-        return this.competitionService.addCompetition(competition);
+    Competition add(@RequestBody Competition competition) {
+        return this.competitionService.add(competition);
     }
 
     @PutMapping("/admin/competitions/{id}")
-    Competition updateCompetition(@PathVariable Long id, @RequestBody Competition competition) {
-        return this.competitionService.updateCompetition(id, competition).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Competition not found"));
+    Competition update(@PathVariable Long id, @RequestBody Competition competition) {
+        return this.competitionService.update(id, competition).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Competition not found"));
     }
 
     @DeleteMapping("/admin/competitions/{id}")
-    void deleteCompetition(@PathVariable Long id) {
-        if(!this.competitionService.deleteCompetition(id)) {
+    void delete(@PathVariable Long id) {
+        if(!this.competitionService.delete(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Competition not found");
         }
     }
