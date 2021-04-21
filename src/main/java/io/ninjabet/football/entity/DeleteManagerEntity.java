@@ -10,17 +10,16 @@ import java.util.Date;
 
 @MappedSuperclass
 public abstract class DeleteManagerEntity {
-    @JsonIgnore
     @Column
     protected Date deleteDate;
 
-    @JsonIgnore
     @ManyToOne
     protected User lastDeleteActionUser;
 
     public DeleteManagerEntity() {
     }
 
+    @JsonIgnore
     public Date getDeleteDate() {
         return deleteDate;
     }
@@ -29,6 +28,7 @@ public abstract class DeleteManagerEntity {
         this.deleteDate = deleteDate;
     }
 
+    @JsonIgnore
     public User getLastDeleteActionUser() { return lastDeleteActionUser; }
 
     public void setLastDeleteActionUser(User lastDeleteActionUser) { this.lastDeleteActionUser = lastDeleteActionUser; }

@@ -1,5 +1,7 @@
 package io.ninjabet.football.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -41,16 +43,26 @@ public class Match extends DeleteManagerEntity implements Serializable, Abstract
         this.id = id;
     }
 
+    @JsonIgnore
     public Team getHome() {
         return home;
+    }
+
+    public Long getHomeId() {
+        return home.getId();
     }
 
     public void setHome(Team home) {
         this.home = home;
     }
 
+    @JsonIgnore
     public Team getGuest() {
         return guest;
+    }
+
+    public Long getGuestId() {
+        return guest.getId();
     }
 
     public void setGuest(Team guest) {
@@ -65,9 +77,10 @@ public class Match extends DeleteManagerEntity implements Serializable, Abstract
         this.date = date;
     }
 
-    public Matchday getMatchday() {
-        return matchday;
-    }
+    public Long getMatchdayId() { return this.matchday.getId(); }
+
+    @JsonIgnore
+    public Matchday getMatchday() { return matchday; }
 
     public void setMatchday(Matchday matcheay) {
         this.matchday = matcheay;

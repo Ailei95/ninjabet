@@ -11,12 +11,10 @@ public class CompetitionTeam extends DeleteManagerEntity implements Serializable
     @EmbeddedId
     CompetitionTeamKey id;
 
-    @JsonIgnore
     @ManyToOne
     @MapsId("competitionId")
     Competition competition;
 
-    @JsonIgnore
     @ManyToOne
     @MapsId("teamId")
     Team team;

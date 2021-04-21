@@ -1,8 +1,11 @@
 package io.ninjabet.football.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity(name = "TEAMS")
 public class Team extends DeleteManagerEntity implements Serializable, AbstractEntity<Long> {
@@ -53,6 +56,11 @@ public class Team extends DeleteManagerEntity implements Serializable, AbstractE
         this.imageUrl = imageUrl;
     }
 
+    public List<Long> getCompetitionsId() {
+        return competitionTeam.stream().map(ct -> ct.getId().getCompetitionId()).collect(Collectors.toList());
+    }
+
+    @JsonIgnore
     public List<CompetitionTeam> getCompetitionTeam() {
         return competitionTeam;
     }

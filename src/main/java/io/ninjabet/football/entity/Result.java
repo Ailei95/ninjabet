@@ -11,7 +11,6 @@ public class Result extends DeleteManagerEntity implements Serializable, Abstrac
     @Id
     private Long matchId;
 
-    @JsonIgnore
     @OneToOne
     @MapsId
     private Match match;
@@ -36,6 +35,7 @@ public class Result extends DeleteManagerEntity implements Serializable, Abstrac
 
     public void setMatchId(Long id) { this.matchId = id; }
 
+    @JsonIgnore
     public Match getMatch() {
         return match;
     }

@@ -1,5 +1,7 @@
 package io.ninjabet.football.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -64,6 +66,9 @@ public class Matchday extends DeleteManagerEntity implements Serializable, Abstr
         this.toDate = toDate;
     }
 
+    public Long getCompetitionId() { return competition.getId(); }
+
+    @JsonIgnore
     public Competition getCompetition() {
         return competition;
     }
