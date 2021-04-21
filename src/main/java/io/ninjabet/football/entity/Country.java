@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity(name = "COUNTRIES")
+@Table(uniqueConstraints = { @UniqueConstraint(columnNames = {"iso2Code", "deleteDate"}) })
 public class Country extends DeleteManagerEntity implements Serializable, AbstractEntity<Long> {
 
     @Id
@@ -13,7 +14,7 @@ public class Country extends DeleteManagerEntity implements Serializable, Abstra
     @Column(nullable = false)
     private String name;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private String iso2Code;
 
     private String imageUrl;

@@ -26,19 +26,19 @@ public abstract class DeleteManagerCrudService<T extends DeleteManagerEntity & A
     }
 
     @Override
-    public Iterable<T> findAll() { return this.crudRepository.findAllByDeletedFalse(); }
+    public Iterable<T> findAll() { return this.crudRepository.findAllByDeleteDateIsNull(); }
 
     @Override
     public Optional<T> findById(ID id) {
         Optional<T> local = this.crudRepository.findById(id);
 
-        if (local.isPresent() && !local.get().isDeleted()) { return local; }
+        if (local.isPresent() && local.get().getDeleteDate() == null) { return local; }
 
         return Optional.empty();
     }
 
     @Override
-    public T add(T t) { t.setDeleted(false); return this.crudRepository.save(t); }
+    public T add(T t) { t.setDeleteDate(null); return this.crudRepository.save(t); }
 
     @Override
     public boolean delete(ID id) {
@@ -59,8 +59,6 @@ public abstract class DeleteManagerCrudService<T extends DeleteManagerEntity & A
         Optional<User> user = this.getCurrentUser();
 
         user.ifPresent(value -> local.get().setLastDeleteActionUser(value));
-
-        local.get().setDeleted(deleted);
 
         this.crudRepository.save(local.get());
 

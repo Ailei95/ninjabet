@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity(name = "COMPETITIONS")
-public class Competition extends DeleteManagerEntity<Long> implements Serializable, AbstractEntity<Long> {
+public class Competition extends DeleteManagerEntity implements Serializable, AbstractEntity<Long> {
 
     @Id
     @GeneratedValue

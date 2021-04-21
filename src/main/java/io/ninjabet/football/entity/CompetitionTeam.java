@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-public class CompetitionTeam extends DeleteManagerEntity<CompetitionTeamKey> implements Serializable, AbstractEntity<CompetitionTeamKey> {
+public class CompetitionTeam extends DeleteManagerEntity implements Serializable, AbstractEntity<CompetitionTeamKey> {
 
     @EmbeddedId
     CompetitionTeamKey id;
