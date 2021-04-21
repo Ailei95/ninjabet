@@ -31,6 +31,7 @@ public class Matchday extends DeleteManagerEntity implements Serializable, Abstr
         this.competition = competition;
     }
 
+    @Override
     public Long getId() {
         return id;
     }

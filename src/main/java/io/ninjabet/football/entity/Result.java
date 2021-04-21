@@ -1,5 +1,7 @@
 package io.ninjabet.football.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -7,8 +9,9 @@ import java.io.Serializable;
 public class Result extends DeleteManagerEntity implements Serializable, AbstractEntity<Long> {
 
     @Id
-    private Long id;
+    private Long matchId;
 
+    @JsonIgnore
     @OneToOne
     @MapsId
     private Match match;
@@ -29,9 +32,9 @@ public class Result extends DeleteManagerEntity implements Serializable, Abstrac
         this.status = status;
     }
 
-    public Long getId() { return id; }
+    public Long getMatchId() { return matchId; }
 
-    public void setId(Long id) { this.id = id; }
+    public void setMatchId(Long id) { this.matchId = id; }
 
     public Match getMatch() {
         return match;
@@ -64,4 +67,8 @@ public class Result extends DeleteManagerEntity implements Serializable, Abstrac
     public void setStatus(String status) {
         this.status = status;
     }
+
+    @JsonIgnore
+    @Override
+    public Long getId() { return this.matchId; }
 }

@@ -1,7 +1,10 @@
 package io.ninjabet.football.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity(name = "TEAMS")
 public class Team extends DeleteManagerEntity implements Serializable, AbstractEntity<Long> {
@@ -15,14 +18,19 @@ public class Team extends DeleteManagerEntity implements Serializable, AbstractE
 
     private String imageUrl;
 
+    @OneToMany(mappedBy = "team")
+    private List<CompetitionTeam> competitionTeam;
+
     public Team() {
     }
 
-    public Team(String name, String imageUrl) {
+    public Team(String name, String imageUrl, List<CompetitionTeam> competitionTeam) {
         this.name = name;
         this.imageUrl = imageUrl;
+        this.competitionTeam = competitionTeam;
     }
 
+    @Override
     public Long getId() {
         return id;
     }
@@ -45,5 +53,13 @@ public class Team extends DeleteManagerEntity implements Serializable, AbstractE
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public List<CompetitionTeam> getCompetitionTeam() {
+        return competitionTeam;
+    }
+
+    public void setCompetitionTeam(List<CompetitionTeam> competitionTeam) {
+        this.competitionTeam = competitionTeam;
     }
 }

@@ -32,6 +32,7 @@ public class Match extends DeleteManagerEntity implements Serializable, Abstract
         this.matchday = matchday;
     }
 
+    @Override
     public Long getId() {
         return id;
     }

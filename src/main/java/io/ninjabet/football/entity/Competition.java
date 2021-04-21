@@ -24,21 +24,22 @@ public class Competition extends DeleteManagerEntity<Long> implements Serializab
     @ManyToOne
     private Country country;
 
-    @ManyToMany
-    private List<Team> teams;
+    @OneToMany(mappedBy = "competition")
+    private List<CompetitionTeam> competitionTeam;
 
     public Competition() {
     }
 
-    public Competition(String name, Date fromDate, Date toDate, String imageUrl, Country country, List<Team> teams) {
+    public Competition(String name, Date fromDate, Date toDate, String imageUrl, Country country, List<CompetitionTeam> competitionTeam) {
         this.name = name;
         this.fromDate = fromDate;
         this.toDate = toDate;
         this.imageUrl = imageUrl;
         this.country = country;
-        this.teams = teams;
+        this.competitionTeam = competitionTeam;
     }
 
+    @Override
     public Long getId() {
         return id;
     }
@@ -87,11 +88,11 @@ public class Competition extends DeleteManagerEntity<Long> implements Serializab
         this.country = country;
     }
 
-    public List<Team> getTeams() {
-        return teams;
+    public List<CompetitionTeam> getCompetitionTeam() {
+        return competitionTeam;
     }
 
-    public void setTeams(List<Team> teams) {
-        this.teams = teams;
+    public void setCompetitionTeams(List<CompetitionTeam> competitionTeams) {
+        this.competitionTeam = competitionTeam;
     }
 }

@@ -27,6 +27,7 @@ public class Country extends DeleteManagerEntity implements Serializable, Abstra
         this.imageUrl = imageUrl;
     }
 
+    @Override
     public Long getId() {
         return id;
     }
