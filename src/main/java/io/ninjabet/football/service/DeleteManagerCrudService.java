@@ -29,6 +29,18 @@ public abstract class DeleteManagerCrudService<T extends DeleteManagerEntity & A
     public Iterable<T> findAll() { return this.crudRepository.findAllByDeletedFalse(); }
 
     @Override
+    public Optional<T> findById(ID id) {
+        Optional<T> local = this.crudRepository.findById(id);
+
+        if (local.isPresent() && !local.get().isDeleted()) { return local; }
+
+        return Optional.empty();
+    }
+
+    @Override
+    public T add(T t) { t.setDeleted(false); return this.crudRepository.save(t); }
+
+    @Override
     public boolean delete(ID id) {
         return this.setEntityDeleted(id, true);
     }
