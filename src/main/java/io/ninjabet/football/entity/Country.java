@@ -1,7 +1,12 @@
 package io.ninjabet.football.entity;
 
+import io.ninjabet.core.entity.AbstractEntity;
+import io.ninjabet.core.entity.DeleteManagerEntity;
+
 import javax.persistence.*;
 import java.io.Serializable;
+
+// TODO Unique constraint for multiple columns with a nullable collum
 
 @Entity(name = "COUNTRIES")
 @Table(uniqueConstraints = { @UniqueConstraint(columnNames = {"iso2Code", "deleteDate"}) })

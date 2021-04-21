@@ -1,6 +1,8 @@
 package io.ninjabet.football.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.ninjabet.core.entity.AbstractEntity;
+import io.ninjabet.core.entity.DeleteManagerEntity;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -30,6 +32,10 @@ public class Result extends DeleteManagerEntity implements Serializable, Abstrac
         this.guestScore = guestScore;
         this.status = status;
     }
+
+    @JsonIgnore
+    @Override
+    public Long getId() { return this.matchId; }
 
     public Long getMatchId() { return matchId; }
 
@@ -67,8 +73,4 @@ public class Result extends DeleteManagerEntity implements Serializable, Abstrac
     public void setStatus(String status) {
         this.status = status;
     }
-
-    @JsonIgnore
-    @Override
-    public Long getId() { return this.matchId; }
 }

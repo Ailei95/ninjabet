@@ -1,6 +1,6 @@
-package io.ninjabet.football.repository;
+package io.ninjabet.core.repository;
 
-import io.ninjabet.football.entity.DeleteManagerEntity;
+import io.ninjabet.core.entity.DeleteManagerEntity;
 
 public interface DeleteManagerRepository<T extends DeleteManagerEntity> {
     Iterable<T> findAllByDeleteDateIsNull();

@@ -1,20 +1,17 @@
-package io.ninjabet.football.entity;
+package io.ninjabet.core.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.ninjabet.auth.entity.User;
 
 import javax.persistence.Column;
-import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import java.util.Date;
+
+// Abstract class for DeleteManagerService
 
 @MappedSuperclass
 public abstract class DeleteManagerEntity {
     @Column
     protected Date deleteDate;
-
-    @ManyToOne
-    protected User lastDeleteActionUser;
 
     public DeleteManagerEntity() {
     }
@@ -27,9 +24,4 @@ public abstract class DeleteManagerEntity {
     public void setDeleteDate(Date deleteDate) {
         this.deleteDate = deleteDate;
     }
-
-    @JsonIgnore
-    public User getLastDeleteActionUser() { return lastDeleteActionUser; }
-
-    public void setLastDeleteActionUser(User lastDeleteActionUser) { this.lastDeleteActionUser = lastDeleteActionUser; }
 }

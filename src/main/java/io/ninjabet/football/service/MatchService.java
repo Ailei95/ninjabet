@@ -1,19 +1,22 @@
 package io.ninjabet.football.service;
 
 import io.ninjabet.auth.service.UserService;
+import io.ninjabet.core.service.DeleteLoggerDMCrudService;
 import io.ninjabet.football.entity.Match;
+import io.ninjabet.core.repository.ActionLoggerRepository;
 import io.ninjabet.football.repository.MatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MatchService extends DeleteManagerCrudService<Match, Long, MatchRepository> {
+public class MatchService extends DeleteLoggerDMCrudService<Match, Long, MatchRepository> {
 
     @Autowired
     public MatchService(
+            ActionLoggerRepository actionLoggerRepository,
             MatchRepository matchRepository,
             UserService userService
     ) {
-        super(matchRepository, userService);
+        super(Match.class, actionLoggerRepository, matchRepository, userService);
     }
 }

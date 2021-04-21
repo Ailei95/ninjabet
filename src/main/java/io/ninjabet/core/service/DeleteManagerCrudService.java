@@ -1,13 +1,9 @@
-package io.ninjabet.football.service;
+package io.ninjabet.core.service;
 
-import io.ninjabet.auth.entity.User;
-import io.ninjabet.auth.service.UserService;
-import io.ninjabet.football.entity.AbstractEntity;
-import io.ninjabet.football.entity.DeleteManagerEntity;
-import io.ninjabet.football.repository.DeleteManagerRepository;
+import io.ninjabet.core.entity.AbstractEntity;
+import io.ninjabet.core.entity.DeleteManagerEntity;
+import io.ninjabet.core.repository.DeleteManagerRepository;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Date;
 import java.util.Optional;
@@ -15,14 +11,10 @@ import java.util.Optional;
 public abstract class DeleteManagerCrudService<T extends DeleteManagerEntity & AbstractEntity<ID>, ID,
         R extends CrudRepository<T, ID> & DeleteManagerRepository<T>> extends CrudService<T, ID, R> {
 
-    protected final UserService userService;
-
     public DeleteManagerCrudService(
-            R crudRepository,
-            UserService userService
+            R crudRepository
     ) {
         super(crudRepository);
-        this.userService = userService;
     }
 
     @Override
@@ -48,7 +40,7 @@ public abstract class DeleteManagerCrudService<T extends DeleteManagerEntity & A
     public boolean restore(ID id) { return this.setEntityDeleted(id, false); }
 
     private boolean setEntityDeleted(ID id, boolean deleted) {
-        Optional<T> local = this.crudRepository.findById(id);
+        Optional<T> local = this.findById(id);
 
         if (!local.isPresent()) {
             return false;
@@ -56,25 +48,8 @@ public abstract class DeleteManagerCrudService<T extends DeleteManagerEntity & A
 
         local.get().setDeleteDate(deleted ? new Date() : null);
 
-        Optional<User> user = this.getCurrentUser();
-
-        user.ifPresent(value -> local.get().setLastDeleteActionUser(value));
-
         this.crudRepository.save(local.get());
 
         return true;
-    }
-
-    private Optional<User> getCurrentUser() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username;
-
-        if (principal instanceof UserDetails) {
-            username = ((UserDetails)principal).getUsername();
-        } else {
-            username = principal.toString();
-        }
-
-        return userService.getUserByEmail(username);
     }
 }

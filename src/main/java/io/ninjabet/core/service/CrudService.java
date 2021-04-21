@@ -1,6 +1,6 @@
-package io.ninjabet.football.service;
+package io.ninjabet.core.service;
 
-import io.ninjabet.football.entity.AbstractEntity;
+import io.ninjabet.core.entity.AbstractEntity;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;

@@ -1,6 +1,7 @@
 package io.ninjabet.football.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.ninjabet.core.entity.AbstractEntity;
+import io.ninjabet.core.entity.DeleteManagerEntity;
 
 import javax.persistence.*;
 import java.io.Serializable;
