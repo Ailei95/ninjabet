@@ -62,15 +62,8 @@ public abstract class DeleteLoggerDMCrudService
 
     protected Optional<User> getCurrentUser() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username;
-
-        if (principal instanceof UserDetails) {
-            username = ((UserDetails)principal).getUsername();
-        } else {
-            username = principal.toString();
-        }
-
-        return userService.getUserByEmail(username);
+        return (principal instanceof UserDetails) ?
+                userService.getUserByEmail(((UserDetails) principal).getUsername()) : Optional.empty();
     }
 
     protected void saveAction(ID id, String action) {

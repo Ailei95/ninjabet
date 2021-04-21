@@ -8,6 +8,16 @@ import java.util.Date;
 
 // Abstract class for DeleteManagerService
 
+/*
+    DeleteManagerEntity Constraint extended with Entity
+
+    !Note: null = null in sql is evaluated false
+
+    Unique constraint has to extended with deleteDate column -> deleteDate column is nullable
+
+    If Entity Primary Key coincides with Foreign Table Primary Key, the key has to extended with deleteDate column
+ */
+
 @MappedSuperclass
 public abstract class DeleteManagerEntity {
     @Column
