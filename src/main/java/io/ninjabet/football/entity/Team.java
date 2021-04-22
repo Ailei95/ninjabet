@@ -1,12 +1,11 @@
 package io.ninjabet.football.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.ninjabet.core.entity.AbstractEntity;
 import io.ninjabet.core.entity.DeleteManagerEntity;
 
 import javax.persistence.*;
 import java.io.Serializable;
- import java.util.LinkedList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -62,11 +61,6 @@ public class Team extends DeleteManagerEntity implements Serializable, AbstractE
     public List<Long> getCompetitionsId() {
         return competitionTeam != null ?
                 competitionTeam.stream().map(ct -> ct.getId().getCompetitionId()).collect(Collectors.toList()) : new LinkedList<>();
-    }
-
-    @JsonIgnore
-    public List<CompetitionTeam> getCompetitionTeam() {
-        return competitionTeam;
     }
 
     public void setCompetitionTeam(List<CompetitionTeam> competitionTeam) {

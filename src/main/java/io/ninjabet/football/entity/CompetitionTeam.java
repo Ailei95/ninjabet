@@ -36,16 +36,16 @@ public class CompetitionTeam implements Serializable, AbstractEntity<Competition
         this.id = id;
     }
 
-    public Competition getCompetition() {
-        return competition;
+    public Long getCompetitionId() {
+        return competition.getId();
     }
 
     public void setCompetition(Competition competition) {
         this.competition = competition;
     }
 
-    public Team getTeam() {
-        return team;
+    public Long getTeamId() {
+        return team.getId();
     }
 
     public void setTeam(Team team) {

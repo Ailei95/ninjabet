@@ -1,6 +1,5 @@
 package io.ninjabet.football.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.ninjabet.core.entity.AbstractEntity;
 import io.ninjabet.core.entity.DeleteManagerEntity;
 
@@ -69,11 +68,6 @@ public class Matchday extends DeleteManagerEntity implements Serializable, Abstr
     }
 
     public Long getCompetitionId() { return competition.getId(); }
-
-    @JsonIgnore
-    public Competition getCompetition() {
-        return competition;
-    }
 
     public void setCompetition(Competition competition) {
         this.competition = competition;
