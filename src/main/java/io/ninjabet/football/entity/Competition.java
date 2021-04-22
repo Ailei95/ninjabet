@@ -1,5 +1,6 @@
 package io.ninjabet.football.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.ninjabet.core.entity.AbstractEntity;
 import io.ninjabet.core.entity.DeleteManagerEntity;
 
@@ -26,8 +27,15 @@ public class Competition extends DeleteManagerEntity implements Serializable, Ab
 
     private String imageUrl;
 
+    @Transient
+    public Long countryId;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne
     private Country country;
+
+    @Transient
+    public List<Long> teamsId;
 
     @OneToMany(mappedBy = "competition")
     private List<CompetitionTeam> competitionTeam;
@@ -89,6 +97,12 @@ public class Competition extends DeleteManagerEntity implements Serializable, Ab
         return country != null ? country.getId() : null;
     }
 
+    public void setCountryId(Long countryId) { this.countryId = countryId; }
+
+    public Country getCountry() {
+        return country;
+    }
+
     public void setCountry(Country country) {
         this.country = country;
     }
@@ -100,7 +114,11 @@ public class Competition extends DeleteManagerEntity implements Serializable, Ab
                 competitionTeam.stream().map(ct -> ct.getId().getTeamId()).collect(Collectors.toList()) : new LinkedList<>();
     }
 
-    public void setCompetitionTeams(List<CompetitionTeam> competitionTeams) {
+    public void setTeamsId(List<Long> teamsId) {
+        this.teamsId = teamsId;
+    }
+
+    public void setCompetitionTeam(List<CompetitionTeam> competitionTeam) {
         this.competitionTeam = competitionTeam;
     }
 }

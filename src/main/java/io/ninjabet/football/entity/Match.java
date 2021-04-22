@@ -22,6 +22,9 @@ public class Match extends DeleteManagerEntity implements Serializable, Abstract
 
     private Date date;
 
+    @Transient
+    public Long matchdayId;
+
     @ManyToOne
     private Matchday matchday;
 
@@ -69,6 +72,10 @@ public class Match extends DeleteManagerEntity implements Serializable, Abstract
     }
 
     public Long getMatchdayId() { return this.matchday.getId(); }
+
+    public void setMatchdayId(Long matchdayId) {
+        this.matchdayId = matchdayId;
+    }
 
     public void setMatchday(Matchday matcheay) {
         this.matchday = matcheay;

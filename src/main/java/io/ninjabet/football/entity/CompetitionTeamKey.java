@@ -1,14 +1,12 @@
 package io.ninjabet.football.entity;
 
-import io.ninjabet.core.entity.DeleteManagerEntity;
-
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-public class CompetitionTeamKey extends DeleteManagerEntity implements Serializable {
+public class CompetitionTeamKey implements Serializable {
     @Column
     private Long competitionId;
 

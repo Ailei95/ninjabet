@@ -6,10 +6,8 @@ import io.ninjabet.core.entity.DeleteManagerEntity;
 import javax.persistence.*;
 import java.io.Serializable;
 
-// TODO Unique constraint for multiple columns with a nullable collum
-
 @Entity(name = "COUNTRIES")
-@Table(uniqueConstraints = { @UniqueConstraint(columnNames = {"iso2Code", "deleteDate"}) })
+@Table(uniqueConstraints = { @UniqueConstraint(columnNames = {"isoCode", "deleteDate"}) })
 public class Country extends DeleteManagerEntity implements Serializable, AbstractEntity<Long> {
 
     @Id
@@ -20,7 +18,7 @@ public class Country extends DeleteManagerEntity implements Serializable, Abstra
     private String name;
 
     @Column(nullable = false)
-    private String iso2Code;
+    private String isoCode;
 
     private String imageUrl;
 
@@ -28,7 +26,7 @@ public class Country extends DeleteManagerEntity implements Serializable, Abstra
     }
 
     public Country(String name, String iso2Code, String imageUrl) {
-        this.iso2Code = iso2Code;
+        this.isoCode = iso2Code;
         this.name = name;
         this.imageUrl = imageUrl;
     }
@@ -42,12 +40,12 @@ public class Country extends DeleteManagerEntity implements Serializable, Abstra
         this.id = id;
     }
 
-    public String getIso2Code() {
-        return iso2Code;
+    public String getIsoCode() {
+        return isoCode;
     }
 
-    public void setIso2Code(String iso2Code) {
-        this.iso2Code = iso2Code;
+    public void setIsoCode(String isoCode) {
+        this.isoCode = isoCode;
     }
 
     public String getName() {

@@ -9,15 +9,21 @@ import java.io.Serializable;
 public class CompetitionTeam implements Serializable, AbstractEntity<CompetitionTeamKey> {
 
     @EmbeddedId
-    CompetitionTeamKey id;
+    private CompetitionTeamKey id;
+
+    @Transient
+    public Long competitionId;
 
     @ManyToOne
     @MapsId("competitionId")
-    Competition competition;
+    private Competition competition;
+
+    @Transient
+    public Long teamId;
 
     @ManyToOne
     @MapsId("teamId")
-    Team team;
+    private Team team;
 
     public CompetitionTeam() {
     }
@@ -40,12 +46,20 @@ public class CompetitionTeam implements Serializable, AbstractEntity<Competition
         return competition.getId();
     }
 
+    public void setCompetitionId(Long competitionId) {
+        this.competitionId = competitionId;
+    }
+
     public void setCompetition(Competition competition) {
         this.competition = competition;
     }
 
     public Long getTeamId() {
         return team.getId();
+    }
+
+    public void setTeamId(Long teamId) {
+        this.teamId = teamId;
     }
 
     public void setTeam(Team team) {

@@ -21,6 +21,9 @@ public class Team extends DeleteManagerEntity implements Serializable, AbstractE
 
     private String imageUrl;
 
+    @Transient
+    public List<Long> competitionsId;
+
     @OneToMany(mappedBy = "team")
     private List<CompetitionTeam> competitionTeam;
 
@@ -61,6 +64,10 @@ public class Team extends DeleteManagerEntity implements Serializable, AbstractE
     public List<Long> getCompetitionsId() {
         return competitionTeam != null ?
                 competitionTeam.stream().map(ct -> ct.getId().getCompetitionId()).collect(Collectors.toList()) : new LinkedList<>();
+    }
+
+    public void setCompetitionsId(List<Long> competitionsId) {
+        this.competitionsId = competitionsId;
     }
 
     public void setCompetitionTeam(List<CompetitionTeam> competitionTeam) {

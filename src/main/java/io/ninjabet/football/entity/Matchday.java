@@ -21,6 +21,9 @@ public class Matchday extends DeleteManagerEntity implements Serializable, Abstr
 
     private Date toDate;
 
+    @Transient
+    public Long competitionId;
+
     @ManyToOne
     private Competition competition;
 
@@ -68,6 +71,10 @@ public class Matchday extends DeleteManagerEntity implements Serializable, Abstr
     }
 
     public Long getCompetitionId() { return competition.getId(); }
+
+    public void setCompetitionId(Long competitionId) {
+        this.competitionId = competitionId;
+    }
 
     public void setCompetition(Competition competition) {
         this.competition = competition;

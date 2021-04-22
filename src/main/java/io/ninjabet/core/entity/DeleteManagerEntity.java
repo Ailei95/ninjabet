@@ -34,6 +34,10 @@ public abstract class DeleteManagerEntity {
     public DeleteManagerEntity() {
     }
 
+    public DeleteManagerEntity(Date deleteDate) {
+        this.deleteDate = deleteDate;
+    }
+
     @JsonIgnore
     public Date getDeleteDate() {
         return deleteDate;
