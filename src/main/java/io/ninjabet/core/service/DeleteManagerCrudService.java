@@ -11,6 +11,8 @@ import java.util.Optional;
 public abstract class DeleteManagerCrudService<T extends DeleteManagerEntity & AbstractEntity<ID>, ID,
         R extends CrudRepository<T, ID> & DeleteManagerRepository<T>> extends CrudService<T, ID, R> {
 
+    protected static final Date CONSISTENT = new Date(0);
+
     public DeleteManagerCrudService(
             R crudRepository
     ) {
@@ -19,20 +21,20 @@ public abstract class DeleteManagerCrudService<T extends DeleteManagerEntity & A
 
     @Override
     public Iterable<T> findAll() {
-        return this.crudRepository.findAllByDeleteDateEquals(new Date(0));
+        return this.crudRepository.findAllByDeleteDateEquals(CONSISTENT);
     }
 
     @Override
     public Optional<T> findById(ID id) {
         Optional<T> local = this.crudRepository.findById(id);
 
-        if (local.isPresent() && local.get().getDeleteDate().getTime() == new Date(0).getTime()) { return local; }
+        if (local.isPresent() && local.get().getDeleteDate().getTime() == CONSISTENT.getTime()) { return local; }
 
         return Optional.empty();
     }
 
     @Override
-    public T add(T t) { t.setDeleteDate(new Date(0)); return this.crudRepository.save(t); }
+    public T add(T t) { t.setDeleteDate(CONSISTENT); return this.crudRepository.save(t); }
 
     @Override
     public boolean delete(ID id) {
@@ -48,7 +50,7 @@ public abstract class DeleteManagerCrudService<T extends DeleteManagerEntity & A
             return false;
         }
 
-        local.get().setDeleteDate(deleted ? new Date() : new Date(0));
+        local.get().setDeleteDate(deleted ? new Date() : CONSISTENT);
 
         this.crudRepository.save(local.get());
 

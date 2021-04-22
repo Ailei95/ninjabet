@@ -7,6 +7,7 @@ import io.ninjabet.core.entity.DeleteManagerEntity;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -102,7 +103,8 @@ public class Competition extends DeleteManagerEntity implements Serializable, Ab
     // Equivalent in Javascript List<Long> teamsId = List<CompetitionTeam>.map(competitionTeam => competitionTeam.id.team.id)
 
     public List<Long> getTeamsId() {
-        return competitionTeam.stream().map(ct -> ct.getId().getTeamId()).collect(Collectors.toList());
+        return competitionTeam != null ?
+                competitionTeam.stream().map(ct -> ct.getId().getTeamId()).collect(Collectors.toList()) : new LinkedList<>();
     }
 
     @JsonIgnore
