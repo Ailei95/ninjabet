@@ -1,7 +1,7 @@
 package io.ninjabet.football.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.ninjabet.core.entity.AbstractEntity;
-import io.ninjabet.core.entity.DeleteManagerEntity;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Entity(name = "TEAMS")
-public class Team extends DeleteManagerEntity implements Serializable, AbstractEntity<Long> {
+public class Team implements Serializable, AbstractEntity<Long> {
 
     @Id
     @GeneratedValue

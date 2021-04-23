@@ -2,13 +2,12 @@ package io.ninjabet.football.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.ninjabet.core.entity.AbstractEntity;
-import io.ninjabet.core.entity.DeleteManagerEntity;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity(name = "RESULTS")
-public class Result extends DeleteManagerEntity implements Serializable, AbstractEntity<Long> {
+public class Result implements Serializable, AbstractEntity<Long> {
 
     @Id
     private Long matchId;

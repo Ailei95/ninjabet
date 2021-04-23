@@ -1,14 +1,12 @@
 package io.ninjabet.football.entity;
 
 import io.ninjabet.core.entity.AbstractEntity;
-import io.ninjabet.core.entity.DeleteManagerEntity;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity(name = "COUNTRIES")
-@Table(uniqueConstraints = { @UniqueConstraint(columnNames = {"isoCode", "deleteDate"}) })
-public class Country extends DeleteManagerEntity implements Serializable, AbstractEntity<Long> {
+public class Country implements Serializable, AbstractEntity<Long> {
 
     @Id
     @GeneratedValue
@@ -17,7 +15,7 @@ public class Country extends DeleteManagerEntity implements Serializable, Abstra
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String isoCode;
 
     private String imageUrl;

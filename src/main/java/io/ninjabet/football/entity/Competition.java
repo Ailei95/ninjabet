@@ -2,7 +2,6 @@ package io.ninjabet.football.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.ninjabet.core.entity.AbstractEntity;
-import io.ninjabet.core.entity.DeleteManagerEntity;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -12,7 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Entity(name = "COMPETITIONS")
-public class Competition extends DeleteManagerEntity implements Serializable, AbstractEntity<Long> {
+public class Competition implements Serializable, AbstractEntity<Long> {
 
     @Id
     @GeneratedValue
@@ -31,7 +30,7 @@ public class Competition extends DeleteManagerEntity implements Serializable, Ab
     public Long countryId;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Country country;
 
     @Transient
@@ -99,10 +98,6 @@ public class Competition extends DeleteManagerEntity implements Serializable, Ab
 
     public void setCountryId(Long countryId) { this.countryId = countryId; }
 
-    public Country getCountry() {
-        return country;
-    }
-
     public void setCountry(Country country) {
         this.country = country;
     }
@@ -112,13 +107,5 @@ public class Competition extends DeleteManagerEntity implements Serializable, Ab
     public List<Long> getTeamsId() {
         return competitionTeam != null ?
                 competitionTeam.stream().map(ct -> ct.getId().getTeamId()).collect(Collectors.toList()) : new LinkedList<>();
-    }
-
-    public void setTeamsId(List<Long> teamsId) {
-        this.teamsId = teamsId;
-    }
-
-    public void setCompetitionTeam(List<CompetitionTeam> competitionTeam) {
-        this.competitionTeam = competitionTeam;
     }
 }

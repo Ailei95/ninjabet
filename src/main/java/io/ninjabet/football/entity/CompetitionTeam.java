@@ -1,5 +1,6 @@
 package io.ninjabet.football.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.ninjabet.core.entity.AbstractEntity;
 
 import javax.persistence.*;
@@ -14,14 +15,16 @@ public class CompetitionTeam implements Serializable, AbstractEntity<Competition
     @Transient
     public Long competitionId;
 
-    @ManyToOne
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("competitionId")
     private Competition competition;
 
     @Transient
     public Long teamId;
 
-    @ManyToOne
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("teamId")
     private Team team;
 

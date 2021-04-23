@@ -1,23 +1,31 @@
 package io.ninjabet.football.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.ninjabet.core.entity.AbstractEntity;
-import io.ninjabet.core.entity.DeleteManagerEntity;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
 @Entity(name = "MATCHES")
-public class Match extends DeleteManagerEntity implements Serializable, AbstractEntity<Long> {
+public class Match implements Serializable, AbstractEntity<Long> {
 
     @Id
     @GeneratedValue
     private Long id;
 
-    @ManyToOne
+    @Transient
+    public Long homeId;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Team home;
 
-    @ManyToOne
+    @Transient
+    public Long guestId;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Team guest;
 
     private Date date;
@@ -25,7 +33,8 @@ public class Match extends DeleteManagerEntity implements Serializable, Abstract
     @Transient
     public Long matchdayId;
 
-    @ManyToOne
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Matchday matchday;
 
     public Match() {

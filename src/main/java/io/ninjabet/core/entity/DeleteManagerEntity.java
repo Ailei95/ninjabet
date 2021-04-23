@@ -20,7 +20,7 @@ import java.util.Date;
 
     If Entity Primary Key coincides with Foreign Table Primary Key, the key has to extended with deleteDate column
 
-    Feed: Unstable class
+    Feeds: Unstable class
 
  **********************************************************************************************************************/
 

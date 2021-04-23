@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/api")
 public class MatchdayController {
@@ -24,8 +26,10 @@ public class MatchdayController {
     }
 
     @GetMapping(value = {"/matchdays", "/admin/matchdays"})
-    Iterable<Matchday> findByCompetition(@RequestParam Long competitionId) {
-        return this.matchdayService.findByCompetition(competitionId);
+    Iterable<Matchday> findByCompetition(@RequestParam Optional<Long> competitionId) {
+        if (competitionId.isPresent()) { return this.matchdayService.findByCompetition(competitionId.get()); }
+
+        return findAll();
     }
 
     @PostMapping("/admin/matchdays/")
