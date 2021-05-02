@@ -21,7 +21,7 @@ public class MatchController {
 
     private final ModelMapper modelMapper;
 
-    @GetMapping(value = {"/matches/", "/admin/matches/"})
+    @GetMapping(value = {"/matches", "/admin/matches"})
     Iterable<MatchDto> findAll() {
         return StreamSupport.stream(this.matchService.findAll().spliterator(), false)
                 .map(this::fromEntityToDto).collect(Collectors.toList());
@@ -33,7 +33,7 @@ public class MatchController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Match not found")));
     }
 
-    @PostMapping("/admin/matches/")
+    @PostMapping("/admin/matches")
     MatchDto add(@RequestBody MatchDto matchDto) {
         return fromEntityToDto(this.matchService.add(fromDtoToEntity(matchDto)));
     }

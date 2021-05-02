@@ -21,7 +21,7 @@ public class CountryController {
 
     private final ModelMapper modelMapper;
 
-    @GetMapping(value = {"/countries/", "admin/countries/"})
+    @GetMapping(value = {"/countries", "admin/countries"})
     Iterable<CountryDto> findAll() {
         return StreamSupport.stream(this.countryService.findAll().spliterator(), false)
                 .map(this::fromEntityToDto).collect(Collectors.toList());
@@ -33,7 +33,7 @@ public class CountryController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Country not found")));
     }
 
-    @PostMapping("/admin/countries/")
+    @PostMapping("/admin/countries")
     Country add(@RequestBody CountryDto countryDto) {
         return this.countryService.add(fromDtoToEntity(countryDto));
     }

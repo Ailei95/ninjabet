@@ -2,14 +2,11 @@ package io.ninjabet.football.controller;
 
 import io.ninjabet.football.entity.Match;
 import io.ninjabet.football.entity.Result;
-import io.ninjabet.football.entity.Team;
 import io.ninjabet.football.entity.dto.ResultDto;
-import io.ninjabet.football.entity.dto.TeamDto;
 import io.ninjabet.football.service.MatchService;
 import io.ninjabet.football.service.ResultService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -29,7 +26,7 @@ public class ResultController {
 
     private final ModelMapper modelMapper;
 
-    @GetMapping(value = {"/results/", "/admin/results/"})
+    @GetMapping(value = {"/results", "/admin/results"})
     Iterable<ResultDto> findAll() {
         return StreamSupport.stream(this.resultService.findAll().spliterator(), false)
                 .map(this::fromEntityToDto).collect(Collectors.toList());
@@ -41,7 +38,7 @@ public class ResultController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Result not found")));
     }
 
-    @PostMapping("/admin/results/")
+    @PostMapping("/admin/results")
     ResultDto add(@RequestBody ResultDto resultDto) {
         return fromEntityToDto(this.resultService.add(fromDtoToEntity(resultDto)));
     }

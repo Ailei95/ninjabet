@@ -22,7 +22,7 @@ public class MatchdayController {
 
     private final ModelMapper modelMapper;
 
-    @GetMapping(value = {"/matchdays/", "/admin/matchdays/"})
+    // @GetMapping(value = {"/matchdays", "/admin/matchdays"})
     Iterable<MatchdayDto> findAll() {
         return StreamSupport.stream(this.matchdayService.findAll().spliterator(), false)
                 .map(this::fromEntityToDto).collect(Collectors.toList());
@@ -44,7 +44,7 @@ public class MatchdayController {
         return findAll();
     }
 
-    @PostMapping("/admin/matchdays/")
+    @PostMapping("/admin/matchdays")
     MatchdayDto add(@RequestBody MatchdayDto matchdayDto) {
         return fromEntityToDto(this.matchdayService.add(fromDtoToEntity(matchdayDto)));
     }

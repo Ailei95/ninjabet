@@ -25,7 +25,7 @@ public class TeamController {
 
     private final ModelMapper modelMapper;
 
-    @GetMapping(value = {"/teams/", "/admin/teams/"})
+    // @GetMapping(value = {"/teams", "/admin/teams"})
     Iterable<TeamDto> findAll() {
         return StreamSupport.stream(this.teamService.findAll().spliterator(), false)
                 .map(this::fromEntityToDto).collect(Collectors.toList());
@@ -46,13 +46,13 @@ public class TeamController {
         return this.findAll();
     }
 
-    @GetMapping(value = {"/competition/{competitionId}/teams", "/admin/competition/{competitionId}/teams"})
+    @GetMapping(value = {"/competitions/{competitionId}/teams", "/admin/competitions/{competitionId}/teams"})
     Iterable<TeamDto> findAllByCompetitionId(@PathVariable Long competitionId) {
         return StreamSupport.stream(this.competitionTeamService.findByCompetitionId(competitionId).spliterator(), false)
                 .map((competitionTeam -> fromEntityToDto(competitionTeam.getTeam()))).collect(Collectors.toList());
     }
 
-    @PostMapping("/admin/teams/")
+    @PostMapping("/admin/teams")
     TeamDto add(@RequestBody TeamDto teamDto) {
         return fromEntityToDto(this.teamService.add(fromDtoToEntity(teamDto)));
     }
