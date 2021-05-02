@@ -1,7 +1,9 @@
 package io.ninjabet;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
 /***********************************************************************************************************************
  *
@@ -23,4 +25,8 @@ public class NinjaBetApplication {
         SpringApplication.run(NinjaBetApplication.class, args);
     }
 
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
 }

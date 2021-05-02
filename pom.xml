@@ -29,6 +29,7 @@
             <optional>true</optional>
         </dependency>
         <dependency>
+            <!-- MySQL Connector -->
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
@@ -39,13 +40,28 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <!-- For JPA entity manager -->
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
         <dependency>
+            <!-- For secure API -->
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
             <version>2.4.3</version>
+        </dependency>
+        <dependency>
+            <!-- For transform entity ro dto and dto to entity -->
+            <groupId>org.modelmapper</groupId>
+            <artifactId>modelmapper</artifactId>
+            <version>2.3.5</version>
+        </dependency>
+        <dependency>
+            <!-- For generate getter and setter -->
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.20</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

@@ -1,12 +1,15 @@
 package io.ninjabet.football.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import io.ninjabet.core.entity.AbstractEntity;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
+@Getter
+@Setter
 @Entity(name = "MATCHES")
 public class Match implements Serializable, AbstractEntity<Long> {
 
@@ -14,26 +17,14 @@ public class Match implements Serializable, AbstractEntity<Long> {
     @GeneratedValue
     private Long id;
 
-    @Transient
-    public Long homeId;
+    private Date date;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne(fetch = FetchType.LAZY)
     private Team home;
 
-    @Transient
-    public Long guestId;
-
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne(fetch = FetchType.LAZY)
     private Team guest;
 
-    private Date date;
-
-    @Transient
-    public Long matchdayId;
-
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne(fetch = FetchType.LAZY)
     private Matchday matchday;
 
@@ -50,43 +41,5 @@ public class Match implements Serializable, AbstractEntity<Long> {
     @Override
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getHomeId() {
-        return home.getId();
-    }
-
-    public void setHome(Team home) {
-        this.home = home;
-    }
-
-    public Long getGuestId() {
-        return guest.getId();
-    }
-
-    public void setGuest(Team guest) {
-        this.guest = guest;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public Long getMatchdayId() { return this.matchday.getId(); }
-
-    public void setMatchdayId(Long matchdayId) {
-        this.matchdayId = matchdayId;
-    }
-
-    public void setMatchday(Matchday matcheay) {
-        this.matchday = matcheay;
     }
 }

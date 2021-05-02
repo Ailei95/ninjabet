@@ -29,8 +29,8 @@ public class MatchdayService extends CrudService<Matchday, Long, MatchdayReposit
 
     @Override
     public Matchday add(Matchday matchday) {
-        if (matchday.competitionId != null) {
-            Optional<Competition> localCompetition = this.competitionService.findById(matchday.competitionId);
+        if (matchday.getCompetition().getId() != null) {
+            Optional<Competition> localCompetition = this.competitionService.findById(matchday.getCompetition().getId());
 
             if (!localCompetition.isPresent()) { return null; }
 
@@ -44,8 +44,8 @@ public class MatchdayService extends CrudService<Matchday, Long, MatchdayReposit
 
     @Override
     public Optional<Matchday> update(Long id, Matchday matchday) {
-        if (matchday.competitionId != null) {
-            Optional<Competition> localCompetition = this.competitionService.findById(matchday.competitionId);
+        if (matchday.getCompetition().getId() != null) {
+            Optional<Competition> localCompetition = this.competitionService.findById(matchday.getCompetition().getId());
 
             if (!localCompetition.isPresent()) { return Optional.empty(); }
 

@@ -29,16 +29,16 @@ public class MatchService extends CrudService<Match, Long, MatchRepository> {
 
     @Override
     public Match add(Match match) {
-        if (match.homeId != null && match.guestId != null && match.matchdayId != null) {
-            Optional<Team> localHome = this.teamService.findById(match.homeId);
+        if (match.getHome().getId() != null && match.getGuest().getId() != null && match.getMatchday().getId() != null) {
+            Optional<Team> localHome = this.teamService.findById(match.getHome().getId());
 
             if (!localHome.isPresent()) { return null; }
 
-            Optional<Team> localGuest = this.teamService.findById(match.guestId);
+            Optional<Team> localGuest = this.teamService.findById(match.getGuest().getId());
 
             if (!localGuest.isPresent()) { return null; }
 
-            Optional<Matchday> localMatchday = this.matchdayService.findById(match.matchdayId);
+            Optional<Matchday> localMatchday = this.matchdayService.findById(match.getMatchday().getId());
 
             if (!localMatchday.isPresent()) { return null; }
 
@@ -56,16 +56,16 @@ public class MatchService extends CrudService<Match, Long, MatchRepository> {
 
     @Override
     public Optional<Match> update(Long id, Match match) {
-        if (match.homeId != null && match.guestId != null && match.matchdayId != null) {
-            Optional<Team> localHome = this.teamService.findById(match.homeId);
+        if (match.getHome().getId() != null && match.getGuest().getId() != null && match.getMatchday().getId() != null) {
+            Optional<Team> localHome = this.teamService.findById(match.getHome().getId());
 
             if (!localHome.isPresent()) { return Optional.empty(); }
 
-            Optional<Team> localGuest = this.teamService.findById(match.guestId);
+            Optional<Team> localGuest = this.teamService.findById(match.getGuest().getId());
 
             if (!localGuest.isPresent()) { return Optional.empty(); }
 
-            Optional<Matchday> localMatchday = this.matchdayService.findById(match.matchdayId);
+            Optional<Matchday> localMatchday = this.matchdayService.findById(match.getMatchday().getId());
 
             if (!localMatchday.isPresent()) { return Optional.empty(); }
 

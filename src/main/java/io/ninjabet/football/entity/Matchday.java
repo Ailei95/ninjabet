@@ -1,12 +1,15 @@
 package io.ninjabet.football.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import io.ninjabet.core.entity.AbstractEntity;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
+@Getter
+@Setter
 @Entity(name = "MATCHDAYS")
 public class Matchday implements Serializable, AbstractEntity<Long> {
 
@@ -21,10 +24,6 @@ public class Matchday implements Serializable, AbstractEntity<Long> {
 
     private Date toDate;
 
-    @Transient
-    public Long competitionId;
-
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne(fetch = FetchType.LAZY)
     private Competition competition;
 
@@ -41,43 +40,5 @@ public class Matchday implements Serializable, AbstractEntity<Long> {
     @Override
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Date getFromDate() {
-        return fromDate;
-    }
-
-    public void setFromDate(Date fromDate) {
-        this.fromDate = fromDate;
-    }
-
-    public Date getToDate() {
-        return toDate;
-    }
-
-    public void setToDate(Date toDate) {
-        this.toDate = toDate;
-    }
-
-    public Long getCompetitionId() { return competition.getId(); }
-
-    public void setCompetitionId(Long competitionId) {
-        this.competitionId = competitionId;
-    }
-
-    public void setCompetition(Competition competition) {
-        this.competition = competition;
     }
 }

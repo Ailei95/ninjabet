@@ -1,29 +1,24 @@
 package io.ninjabet.football.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import io.ninjabet.core.entity.AbstractEntity;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
+@Getter
+@Setter
 @Entity
 public class CompetitionTeam implements Serializable, AbstractEntity<CompetitionTeamKey> {
 
     @EmbeddedId
     private CompetitionTeamKey id;
 
-    @Transient
-    public Long competitionId;
-
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("competitionId")
     private Competition competition;
 
-    @Transient
-    public Long teamId;
-
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("teamId")
     private Team team;
@@ -39,33 +34,5 @@ public class CompetitionTeam implements Serializable, AbstractEntity<Competition
     @Override
     public CompetitionTeamKey getId() {
         return id;
-    }
-
-    public void setId(CompetitionTeamKey id) {
-        this.id = id;
-    }
-
-    public Long getCompetitionId() {
-        return competition.getId();
-    }
-
-    public void setCompetitionId(Long competitionId) {
-        this.competitionId = competitionId;
-    }
-
-    public void setCompetition(Competition competition) {
-        this.competition = competition;
-    }
-
-    public Long getTeamId() {
-        return team.getId();
-    }
-
-    public void setTeamId(Long teamId) {
-        this.teamId = teamId;
-    }
-
-    public void setTeam(Team team) {
-        this.team = team;
     }
 }

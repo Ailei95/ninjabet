@@ -28,15 +28,23 @@ public class CompetitionTeamService extends CrudService<CompetitionTeam, Competi
         this.teamRepository = teamRepository;
     }
 
+    public Iterable<CompetitionTeam> findByCompetitionId(Long competitionId) {
+        return crudRepository.findByCompetition_Id(competitionId);
+    }
+
+    public Iterable<CompetitionTeam> findByTeamId(Long teamId) {
+        return crudRepository.findByTeam_Id(teamId);
+    }
+
     @Override
     public Optional<CompetitionTeam> update(CompetitionTeamKey id, CompetitionTeam competitionTeam) {
 
-        if (competitionTeam.competitionId != null && competitionTeam.teamId != null) {
-            Optional<Competition> localCompetition = this.competitionRepository.findById(competitionTeam.competitionId);
+        if (competitionTeam.getCompetition().getId() != null && competitionTeam.getTeam().getId() != null) {
+            Optional<Competition> localCompetition = this.competitionRepository.findById(competitionTeam.getCompetition().getId());
 
             if (!localCompetition.isPresent()) { return Optional.empty(); }
 
-            Optional<Team> localTeam = this.teamRepository.findById(competitionTeam.teamId);
+            Optional<Team> localTeam = this.teamRepository.findById(competitionTeam.getTeam().getId());
 
             if (!localTeam.isPresent()) { return Optional.empty(); }
 
@@ -44,7 +52,7 @@ public class CompetitionTeamService extends CrudService<CompetitionTeam, Competi
 
             competitionTeam.setTeam(localTeam.get());
 
-            competitionTeam.setId(new CompetitionTeamKey(competitionTeam.competitionId, competitionTeam.teamId));
+            competitionTeam.setId(new CompetitionTeamKey(competitionTeam.getCompetition().getId(), competitionTeam.getTeam().getId()));
 
             return super.update(id, competitionTeam);
         } else {

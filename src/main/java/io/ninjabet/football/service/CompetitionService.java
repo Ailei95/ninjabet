@@ -29,8 +29,8 @@ public class CompetitionService extends CrudService<Competition, Long, Competiti
 
     @Override
     public Competition add(Competition competition) {
-        if (competition.countryId != null) {
-            Optional<Country> localCountry = this.countryService.findById(competition.countryId);
+        if (competition.getCountry().getId() != null) {
+            Optional<Country> localCountry = this.countryService.findById(competition.getCountry().getId());
 
             if (!localCountry.isPresent()) { return null; }
 
@@ -38,14 +38,14 @@ public class CompetitionService extends CrudService<Competition, Long, Competiti
 
             return super.add(competition);
         } else {
-            return null;
+            throw new IllegalArgumentException();
         }
     }
 
     @Override
     public Optional<Competition> update(Long id, Competition competition) {
-        if (competition.countryId != null) {
-            Optional<Country> localCountry = this.countryService.findById(competition.countryId);
+        if (competition.getCountry().getId() != null) {
+            Optional<Country> localCountry = this.countryService.findById(competition.getCountry().getId());
 
             if (!localCountry.isPresent()) { return Optional.empty(); }
 

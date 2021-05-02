@@ -2,15 +2,23 @@ package io.ninjabet.football.controller;
 
 import io.ninjabet.football.entity.Match;
 import io.ninjabet.football.entity.Result;
+import io.ninjabet.football.entity.Team;
+import io.ninjabet.football.entity.dto.ResultDto;
+import io.ninjabet.football.entity.dto.TeamDto;
 import io.ninjabet.football.service.MatchService;
 import io.ninjabet.football.service.ResultService;
+import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/api")
 public class ResultController {
@@ -19,33 +27,29 @@ public class ResultController {
 
     private final MatchService matchService;
 
-    @Autowired
-    public ResultController(
-            ResultService resultService,
-            MatchService matchService
-    ) {
-        this.resultService = resultService;
-        this.matchService = matchService;
-    }
+    private final ModelMapper modelMapper;
 
     @GetMapping(value = {"/results/", "/admin/results/"})
-    Iterable<Result> findAll() {
-        return this.resultService.findAll();
+    Iterable<ResultDto> findAll() {
+        return StreamSupport.stream(this.resultService.findAll().spliterator(), false)
+                .map(this::fromEntityToDto).collect(Collectors.toList());
     }
 
     @GetMapping(value = {"/results/{matchId}", "/admin/results/{matchId}"})
-    Result findById(@PathVariable Long matchId) {
-        return this.resultService.findById(matchId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Result not found"));
+    ResultDto findById(@PathVariable Long matchId) {
+        return fromEntityToDto(this.resultService.findById(matchId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Result not found")));
     }
 
     @PostMapping("/admin/results/")
-    Result add(@RequestBody Result result) {
-        return this.resultService.add(result);
+    ResultDto add(@RequestBody ResultDto resultDto) {
+        return fromEntityToDto(this.resultService.add(fromDtoToEntity(resultDto)));
     }
 
     @PutMapping("/admin/results/{matchId}")
-    Result update(@PathVariable Long matchId, @RequestBody Result result) {
-        return this.resultService.update(matchId, result).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Result not found"));
+    ResultDto update(@PathVariable Long matchId, @RequestBody ResultDto resultDto) {
+        return fromEntityToDto(this.resultService.update(matchId, fromDtoToEntity(resultDto))
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Result not found")));
     }
 
     @DeleteMapping("/admin/results/{matchId}")
@@ -55,5 +59,13 @@ public class ResultController {
         if (!localMatch.isPresent() || !this.resultService.delete(matchId)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Result or match not found");
         }
+    }
+
+    private ResultDto fromEntityToDto(Result result) {
+        return modelMapper.map(result, ResultDto.class);
+    }
+
+    private Result fromDtoToEntity(ResultDto resultDto) {
+        return modelMapper.map(resultDto, Result.class);
     }
 }

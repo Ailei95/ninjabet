@@ -13,6 +13,10 @@ public abstract class CrudService<T extends AbstractEntity<ID>, ID,  R extends C
 
     public Iterable<T> findAll() { return this.crudRepository.findAll(); }
 
+//    public Iterable<T> findAll(int page, int size, String sortDir) {
+//        return this.crudRepository.findAll(PageRequest.of(page, size, Sort.Direction.fromString(sortDir)));
+//    }
+
     public Optional<T> findById(ID id) { return this.crudRepository.findById(id); }
 
     public T add(T t) {

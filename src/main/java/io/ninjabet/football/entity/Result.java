@@ -2,10 +2,14 @@ package io.ninjabet.football.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.ninjabet.core.entity.AbstractEntity;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
+@Getter
+@Setter
 @Entity(name = "RESULTS")
 public class Result implements Serializable, AbstractEntity<Long> {
 
@@ -35,36 +39,4 @@ public class Result implements Serializable, AbstractEntity<Long> {
     @JsonIgnore
     @Override
     public Long getId() { return this.matchId; }
-
-    public Long getMatchId() { return matchId; }
-
-    public void setMatchId(Long id) { this.matchId = id; }
-
-    public void setMatch(Match match) {
-        this.match = match;
-    }
-
-    public Integer getHomeScore() {
-        return homeScore;
-    }
-
-    public void setHomeScore(Integer homeScore) {
-        this.homeScore = homeScore;
-    }
-
-    public Integer getGuestScore() {
-        return guestScore;
-    }
-
-    public void setGuestScore(Integer guestScore) {
-        this.guestScore = guestScore;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
 }
