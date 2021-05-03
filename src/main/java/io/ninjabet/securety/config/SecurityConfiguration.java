@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -36,11 +37,20 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .antMatchers("/api/admin/**").hasRole("ADMIN")
                     // la valutazione di antMatchers viene troccato al primo path che combaccia
                     .antMatchers("/").permitAll()
+                    // .and().httpBasic();
                     // redirect sulla pagina di login
                     .and().formLogin().loginPage("/login.html")
+                    // .and().httpBasic()
                     // endpoint del servizio che verificherà le credenziali
-                    .loginProcessingUrl("/login")
-                    .and().csrf().disable();
+                    .loginProcessingUrl("/api/login")
+                    .and().rememberMe()
+                    .and().logout()
+                    .clearAuthentication(true)
+                    .invalidateHttpSession(true)
+                    .deleteCookies("JSESSIONID", "remember-me")
+                    // disable cross request forgery token
+                    .and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+                    // .and().csrf().disable();
         } else {
             httpSecurity.authorizeRequests()
                     .antMatchers("/").permitAll()

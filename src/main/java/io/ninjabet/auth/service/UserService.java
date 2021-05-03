@@ -2,25 +2,24 @@ package io.ninjabet.auth.service;
 
 import io.ninjabet.auth.entity.User;
 import io.ninjabet.auth.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.Optional;
 
+@AllArgsConstructor
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
-
-    @Autowired
-    public UserService(UserRepository userRepository) { this.userRepository = userRepository; }
 
     public Optional<User> getUserByEmail(String email) {
         return this.userRepository.findById(email);
     }
 
     public Optional<User> addUser(User user) {
+        Date actionDate = new Date();
         Optional<User> localUser = getUserByEmail(user.getEmail());
 
         if (localUser.isPresent()) {
@@ -28,7 +27,9 @@ public class UserService {
         }
 
         user.setAdmin(false);
-        user.setRegistrationDate(new Date());
+        user.setVerify(false);
+        user.setRegistrationDate(actionDate);
+        user.setLastPasswordChangeDate(actionDate);
 
         return Optional.of(this.userRepository.save(user));
     }

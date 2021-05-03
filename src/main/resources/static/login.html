@@ -6,7 +6,7 @@
 </head>
 <body>
     <div class="container">
-        <form class="form-signin" method="post" action="/login">
+        <form class="form-signin" method="post" action="/api/login">
             <h2 class="form-signin-heading">Please sign in</h2>
             <p>
                 <label for="username" class="sr-only">Username</label>
@@ -15,6 +15,10 @@
             <p>
                 <label for="password" class="sr-only">Password</label>
                 <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+            </p>
+            <p>
+                Remember me?
+                <input type="checkbox" id="remember-me" name="remember-me" class="form-control" placeholder="Remember me">
             </p>
             <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
         </form>

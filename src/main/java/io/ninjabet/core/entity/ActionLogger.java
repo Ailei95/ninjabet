@@ -1,7 +1,8 @@
 package io.ninjabet.core.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.ninjabet.auth.entity.User;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import java.util.Date;
 
+@Getter
+@Setter
 @Entity
 public class ActionLogger implements AbstractEntity<Long> {
 
@@ -41,54 +44,5 @@ public class ActionLogger implements AbstractEntity<Long> {
     @Override
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTableName() {
-        return tableName;
-    }
-
-    public void setTableName(String tableName) {
-        this.tableName = tableName;
-    }
-
-    public String getTableKey() {
-        return tableKey;
-    }
-
-    public void setTableKey(String tableKey) {
-        this.tableKey = tableKey;
-    }
-
-    public String getAction() {
-        return action;
-    }
-
-    public void setAction(String action) {
-        this.action = action;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public String getUserId() {
-        return user.getEmail();
-    }
-
-    @JsonIgnore
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 }
