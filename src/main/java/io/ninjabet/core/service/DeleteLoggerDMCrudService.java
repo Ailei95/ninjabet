@@ -1,7 +1,7 @@
 package io.ninjabet.core.service;
 
-import io.ninjabet.auth.entity.User;
-import io.ninjabet.auth.service.UserService;
+import io.ninjabet.auth.entity.NinjaBetUser;
+import io.ninjabet.auth.service.NinjaBetUserDetailsService;
 import io.ninjabet.core.entity.AbstractEntity;
 import io.ninjabet.core.entity.ActionLogger;
 import io.ninjabet.core.entity.DeleteManagerEntity;
@@ -15,24 +15,25 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 import java.util.Optional;
 
+@Deprecated
 public abstract class DeleteLoggerDMCrudService
         <T extends DeleteManagerEntity & AbstractEntity<ID>, ID, R extends CrudRepository<T, ID> & DeleteManagerRepository<T>>
         extends DeleteManagerCrudService<T, ID, R> {
 
     private final ActionLoggerRepository actionLoggerRepository;
     private final Class<T> tClass;
-    private final UserService userService;
+    private final NinjaBetUserDetailsService ninjaBetUserDetailsService;
 
     public DeleteLoggerDMCrudService(
             Class<T> tClass,
             ActionLoggerRepository actionLoggerRepository,
             R crudRepository,
-            UserService userService
+            NinjaBetUserDetailsService ninjaBetUserDetailsService
     ) {
         super(crudRepository);
         this.tClass = tClass;
         this.actionLoggerRepository = actionLoggerRepository;
-        this.userService = userService;
+        this.ninjaBetUserDetailsService = ninjaBetUserDetailsService;
     }
 
     @Transactional
@@ -60,10 +61,10 @@ public abstract class DeleteLoggerDMCrudService
         }
     }
 
-    protected Optional<User> getCurrentUser() {
+    protected Optional<NinjaBetUser> getCurrentUser() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return (principal instanceof UserDetails) ?
-                userService.getUserByEmail(((UserDetails) principal).getUsername()) : Optional.empty();
+                ninjaBetUserDetailsService.findUserByEmail(((UserDetails) principal).getUsername()) : Optional.empty();
     }
 
     protected void saveAction(ID id, String action) {

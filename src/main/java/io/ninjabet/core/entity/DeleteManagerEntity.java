@@ -26,6 +26,7 @@ import java.util.Date;
 
 // Abstract class for DeleteManagerService
 
+@Deprecated
 @MappedSuperclass
 public abstract class DeleteManagerEntity {
     @Column(nullable = false)

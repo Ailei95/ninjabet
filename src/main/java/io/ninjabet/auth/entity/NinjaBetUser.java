@@ -15,7 +15,7 @@ import java.util.Date;
 @Getter
 @Setter
 @Entity(name = "USERS")
-public class User {
+public class NinjaBetUser {
 
     @Id
     private String email;

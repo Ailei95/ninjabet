@@ -1,12 +1,12 @@
 package io.ninjabet.auth.repository;
 
-import io.ninjabet.auth.entity.User;
+import io.ninjabet.auth.entity.NinjaBetUser;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends CrudRepository<User, String> {
-    Optional<User> findByEmail(String email);
+public interface NinjaBetUserRepository extends CrudRepository<NinjaBetUser, String> {
+    Optional<NinjaBetUser> findByEmail(String email);
 }

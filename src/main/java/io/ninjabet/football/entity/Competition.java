@@ -30,6 +30,7 @@ public class Competition implements Serializable, AbstractEntity<Long> {
     @ManyToOne(fetch = FetchType.LAZY)
     private Country country;
 
+
     @OneToMany(mappedBy = "competition")
     private List<CompetitionTeam> competitionTeam;
 

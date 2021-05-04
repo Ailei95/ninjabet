@@ -1,5 +1,7 @@
 package io.ninjabet.football.controller;
 
+import io.ninjabet.auth.entity.NinjaBetUser;
+import io.ninjabet.auth.service.NinjaBetUserDetailsService;
 import io.ninjabet.football.entity.Competition;
 import io.ninjabet.football.entity.dto.CompetitionDto;
 import io.ninjabet.football.service.CompetitionService;
@@ -7,6 +9,8 @@ import io.ninjabet.football.service.CompetitionTeamService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -25,8 +29,17 @@ public class CompetitionController {
 
     private final ModelMapper modelMapper;
 
+    private final NinjaBetUserDetailsService ninjaBetUserDetailsService;
+
+
+
     // @GetMapping(value = {"/competitions", "/admin/competitions"})
     Iterable<CompetitionDto> findAll() {
+
+        Optional<NinjaBetUser> ninjaBetUser = ninjaBetUserDetailsService.getCurrentUser();
+
+        System.out.println(ninjaBetUser);
+
         return StreamSupport.stream(this.competitionService.findAll().spliterator(), false)
                 .map(this::fromEntityToDto).collect(Collectors.toList());
     }

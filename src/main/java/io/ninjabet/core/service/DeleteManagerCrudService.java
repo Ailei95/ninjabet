@@ -8,6 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.Date;
 import java.util.Optional;
 
+@Deprecated
 public abstract class DeleteManagerCrudService<T extends DeleteManagerEntity & AbstractEntity<ID>, ID,
         R extends CrudRepository<T, ID> & DeleteManagerRepository<T>> extends CrudService<T, ID, R> {
 
