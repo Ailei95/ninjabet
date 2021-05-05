@@ -1,5 +1,6 @@
 package io.ninjabet.securety.config;
 
+import io.ninjabet.auth.service.LoginSuccessHandle;
 import io.ninjabet.securety.role.NinjaBetRole;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,6 +20,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Qualifier("NinjaBetDetailsService")
     private final UserDetailsService userDetailsService;
 
+    private final LoginSuccessHandle loginSuccessHandle;
+
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         if (environment.getProperty("spring.profiles.active").equals("prod")) {
@@ -27,7 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/api/admin/**").hasRole(NinjaBetRole.ADMIN.name())
                     .antMatchers("/").permitAll()
                     .and().formLogin().loginPage("/login.html")
-                    .loginProcessingUrl("/api/login")
+                    .loginProcessingUrl("/api/login").successHandler(loginSuccessHandle)
                     .and().rememberMe()
                     .and().logout()
                     .clearAuthentication(true)

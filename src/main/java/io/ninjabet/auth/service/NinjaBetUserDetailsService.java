@@ -47,6 +47,15 @@ public class NinjaBetUserDetailsService implements UserDetailsService  {
         return Optional.of(this.ninjaBetUserRepository.save(ninjaBetUser));
     }
 
+    public void updateLastLoginDate(String email) {
+        Optional<NinjaBetUser> localNinjaBetUser = findById(email);
+
+        localNinjaBetUser.ifPresent(ninjaBetUser -> {
+            ninjaBetUser.setLastLoginDate(new Date());
+            ninjaBetUserRepository.save(localNinjaBetUser.get());
+        });
+    }
+
     public Optional<NinjaBetUser> getCurrentUser() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return (principal instanceof UserDetails) ? findById(((UserDetails) principal).getUsername()) : Optional.empty();

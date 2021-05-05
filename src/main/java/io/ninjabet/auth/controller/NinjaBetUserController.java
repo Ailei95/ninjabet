@@ -22,12 +22,7 @@ public class NinjaBetUserController {
 
     private final ModelMapper modelMapper;
 
-    /**
-     * For user registration
-     *
-     * @param registrationNinjaBetUserDto
-     * @return
-     */
+    // For registration only
 
     @PostMapping("/users")
     NinjaBetUserDto addUser(@RequestBody RegistrationNinjaBetUserDto registrationNinjaBetUserDto) {

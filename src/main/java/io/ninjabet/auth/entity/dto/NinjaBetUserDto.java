@@ -11,5 +11,5 @@ public class NinjaBetUserDto {
 
     private String email;
 
-    private Date registrationDate;
+    private Date lastLoginDate;
 }

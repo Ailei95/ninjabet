@@ -27,6 +27,8 @@ public class NinjaBetUser {
 
     private Date lastPasswordChangeDate;
 
+    private Date lastLoginDate;
+
     private boolean admin;
 
     private boolean verify;
