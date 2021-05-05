@@ -26,13 +26,13 @@ public class NinjaBetUserDetailsService implements UserDetailsService  {
 
     private final PasswordEncoder passwordEncoder;
 
-    public Optional<NinjaBetUser> findUserByEmail(String email) {
+    public Optional<NinjaBetUser> findById(String email) {
         return this.ninjaBetUserRepository.findById(email);
     }
 
     public Optional<NinjaBetUser> add(NinjaBetUser ninjaBetUser) {
         Date actionDate = new Date();
-        Optional<NinjaBetUser> localUser = findUserByEmail(ninjaBetUser.getEmail());
+        Optional<NinjaBetUser> localUser = findById(ninjaBetUser.getEmail());
 
         if (localUser.isPresent()) {
             return Optional.empty();
@@ -49,13 +49,13 @@ public class NinjaBetUserDetailsService implements UserDetailsService  {
 
     public Optional<NinjaBetUser> getCurrentUser() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return (principal instanceof UserDetails) ? findUserByEmail(((UserDetails) principal).getUsername()) : Optional.empty();
+        return (principal instanceof UserDetails) ? findById(((UserDetails) principal).getUsername()) : Optional.empty();
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        Optional<NinjaBetUser> ninjaBetUser = this.findUserByEmail(username);
+        Optional<NinjaBetUser> ninjaBetUser = this.findById(username);
 
         if (!ninjaBetUser.isPresent()) {
             throw new UsernameNotFoundException("Username not found");
@@ -79,6 +79,7 @@ public class NinjaBetUserDetailsService implements UserDetailsService  {
                     Set<NinjaBetFootballPermission> footballPermissions = NinjaBetRole.USER.getFootballPermissions();
 
                     footballPermissions.forEach(permission -> authorities.add(new SimpleGrantedAuthority(permission.name())));
+
                 }
 
                 return authorities;

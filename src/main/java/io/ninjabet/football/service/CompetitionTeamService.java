@@ -36,27 +36,25 @@ public class CompetitionTeamService extends CrudService<CompetitionTeam, Competi
         return crudRepository.findByTeam_Id(teamId);
     }
 
+    public Optional<CompetitionTeam> add(Long competitionId, Long teamId) {
+        Optional<CompetitionTeam> competitionTeamOptional = findById(new CompetitionTeamKey(competitionId, teamId));
+
+        if (competitionTeamOptional.isPresent()) { return Optional.empty(); }
+
+        CompetitionTeam competitionTeam = new CompetitionTeam();
+
+        competitionTeam.setId(new CompetitionTeamKey(competitionId, teamId));
+
+        competitionRepository.findById(competitionId).ifPresent(competitionTeam::setCompetition);
+
+        teamRepository.findById(teamId).ifPresent(competitionTeam::setTeam);
+
+        return Optional.of(add(competitionTeam));
+    }
+
+    @Deprecated
     @Override
-    public Optional<CompetitionTeam> update(CompetitionTeamKey id, CompetitionTeam competitionTeam) {
-
-        if (competitionTeam.getCompetition().getId() != null && competitionTeam.getTeam().getId() != null) {
-            Optional<Competition> localCompetition = this.competitionRepository.findById(competitionTeam.getCompetition().getId());
-
-            if (!localCompetition.isPresent()) { return Optional.empty(); }
-
-            Optional<Team> localTeam = this.teamRepository.findById(competitionTeam.getTeam().getId());
-
-            if (!localTeam.isPresent()) { return Optional.empty(); }
-
-            competitionTeam.setCompetition(localCompetition.get());
-
-            competitionTeam.setTeam(localTeam.get());
-
-            competitionTeam.setId(new CompetitionTeamKey(competitionTeam.getCompetition().getId(), competitionTeam.getTeam().getId()));
-
-            return super.update(id, competitionTeam);
-        } else {
-            return Optional.empty();
-        }
+    public Optional<CompetitionTeam> update(CompetitionTeamKey competitionTeamKey, CompetitionTeam competitionTeam) {
+        throw new UnsupportedOperationException("The method cannot be called");
     }
 }

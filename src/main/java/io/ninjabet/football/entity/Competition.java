@@ -1,5 +1,6 @@
 package io.ninjabet.football.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.ninjabet.core.entity.AbstractEntity;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,7 +30,6 @@ public class Competition implements Serializable, AbstractEntity<Long> {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Country country;
-
 
     @OneToMany(mappedBy = "competition")
     private List<CompetitionTeam> competitionTeam;

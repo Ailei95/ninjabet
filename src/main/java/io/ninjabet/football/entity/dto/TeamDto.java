@@ -15,6 +15,4 @@ public class TeamDto {
     private String name;
 
     private String imageUrl;
-
-    private List<Long> competitionsId;
 }

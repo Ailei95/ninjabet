@@ -64,7 +64,7 @@ public abstract class DeleteLoggerDMCrudService
     protected Optional<NinjaBetUser> getCurrentUser() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return (principal instanceof UserDetails) ?
-                ninjaBetUserDetailsService.findUserByEmail(((UserDetails) principal).getUsername()) : Optional.empty();
+                ninjaBetUserDetailsService.findById(((UserDetails) principal).getUsername()) : Optional.empty();
     }
 
     protected void saveAction(ID id, String action) {
