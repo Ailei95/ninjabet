@@ -26,6 +26,10 @@ public class LoginSuccessHandle extends SavedRequestAwareAuthenticationSuccessHa
         if (principal instanceof UserDetails)
             ninjaBetUserDetailsService.updateLastLoginDate(((UserDetails) principal).getUsername());
 
-        super.onAuthenticationSuccess(request, response, authentication);
+        response.setStatus(200);
+
+        response.getWriter().flush();
+
+        // super.onAuthenticationSuccess(request, response, authentication);
     }
 }

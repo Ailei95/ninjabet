@@ -17,7 +17,6 @@ import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class NinjaBetApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(NinjaBetApplication.class, args);
     }

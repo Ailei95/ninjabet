@@ -7,11 +7,10 @@ import io.ninjabet.auth.service.NinjaBetUserDetailsService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.Optional;
 
 @AllArgsConstructor
 @RestController
@@ -22,10 +21,17 @@ public class NinjaBetUserController {
 
     private final ModelMapper modelMapper;
 
+    @GetMapping("/user")
+    NinjaBetUserDto get() {
+        Optional<NinjaBetUserDto> local = this.ninjaBetUserDetailsService.getCurrentUser();
+
+        return local.isPresent() ? local.get() : null;
+    }
+
     // For registration only
 
     @PostMapping("/users")
-    NinjaBetUserDto addUser(@RequestBody RegistrationNinjaBetUserDto registrationNinjaBetUserDto) {
+    NinjaBetUserDto add(@RequestBody RegistrationNinjaBetUserDto registrationNinjaBetUserDto) {
         return fromEntityToDto(this.ninjaBetUserDetailsService.add(fromDtoToEntity(registrationNinjaBetUserDto))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.CONFLICT, "User already exists")));
     }

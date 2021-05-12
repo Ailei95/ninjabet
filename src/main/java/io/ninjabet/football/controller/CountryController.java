@@ -34,14 +34,14 @@ public class CountryController {
     }
 
     @PostMapping("/admin/countries")
-    Country add(@RequestBody CountryDto countryDto) {
-        return this.countryService.add(fromDtoToEntity(countryDto));
+    CountryDto add(@RequestBody CountryDto countryDto) {
+        return fromEntityToDto(this.countryService.add(fromDtoToEntity(countryDto)));
     }
 
     @PutMapping("/admin/countries/{id}")
-    Country update(@PathVariable Long id, @RequestBody CountryDto countryDto) {
-        return this.countryService.update(id, fromDtoToEntity(countryDto))
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Country not found"));
+    CountryDto update(@PathVariable Long id, @RequestBody CountryDto countryDto) {
+        return fromEntityToDto(this.countryService.update(id, fromDtoToEntity(countryDto))
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Country not found")));
     }
 
     @DeleteMapping("/admin/countries/{id}")

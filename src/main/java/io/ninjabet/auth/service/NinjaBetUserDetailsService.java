@@ -1,6 +1,7 @@
 package io.ninjabet.auth.service;
 
 import io.ninjabet.auth.entity.NinjaBetUser;
+import io.ninjabet.auth.entity.dto.NinjaBetUserDto;
 import io.ninjabet.auth.repository.NinjaBetUserRepository;
 import io.ninjabet.securety.permission.NinjaBetFootballPermission;
 import io.ninjabet.securety.role.NinjaBetRole;
@@ -16,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
@@ -56,9 +58,24 @@ public class NinjaBetUserDetailsService implements UserDetailsService  {
         });
     }
 
-    public Optional<NinjaBetUser> getCurrentUser() {
+    public Optional<NinjaBetUserDto> getCurrentUser() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return (principal instanceof UserDetails) ? findById(((UserDetails) principal).getUsername()) : Optional.empty();
+
+        if (principal instanceof UserDetails) {
+            UserDetails userDetails = loadUserByUsername(((UserDetails) principal).getUsername());
+
+            NinjaBetUserDto ninjaBetUserDto = new NinjaBetUserDto();
+
+            ninjaBetUserDto.setEmail(userDetails.getUsername());
+
+            ninjaBetUserDto.setAuthorities(userDetails.getAuthorities().stream()
+                    .map((authority) -> authority.toString()).collect(Collectors.toList())
+            );
+
+            return Optional.of(ninjaBetUserDto);
+        } else {
+            return Optional.empty();
+        }
     }
 
     @Override
