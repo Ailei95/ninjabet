@@ -7,8 +7,10 @@ import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.servlet.http.HttpSession;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -36,6 +38,11 @@ public class CountryController {
     @PostMapping("/admin/countries")
     CountryDto add(@RequestBody CountryDto countryDto) {
         return fromEntityToDto(this.countryService.add(fromDtoToEntity(countryDto)));
+    }
+
+    @PostMapping("/admin/countries_mp")
+    void add_mp(@RequestParam CommonsMultipartFile countryDto, HttpSession session) {
+        System.out.println(countryDto);
     }
 
     @PutMapping("/admin/countries/{id}")
