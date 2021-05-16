@@ -1,0 +1,111 @@
+{
+  "configVersion": 1,
+  "timestamp": 1621147390898,
+  "index": "/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/10.5f4a293309e979ef3a86.js",
+        "/4.20df04e3955765c844c7.js",
+        "/5.1fc3481a5b42ad6485c5.js",
+        "/6.ac92458b66903cda1df2.js",
+        "/7.2d5a2173dc5a435217be.js",
+        "/8.29e674193af3595de1a6.js",
+        "/9.5d205fee0d68e4df7dd6.js",
+        "/favicon.ico",
+        "/index.html",
+        "/main.e2d5ba94eb5dd2348c0d.js",
+        "/manifest.webmanifest",
+        "/polyfills.16c3135c6d1dbd8a7ee0.js",
+        "/runtime.a3bad844298289cf94d7.js",
+        "/styles.f0f2ab9e136351412897.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/assets/data.csv",
+        "/assets/icons/icon-128x128.png",
+        "/assets/icons/icon-144x144.png",
+        "/assets/icons/icon-152x152.png",
+        "/assets/icons/icon-192x192.png",
+        "/assets/icons/icon-384x384.png",
+        "/assets/icons/icon-512x512.png",
+        "/assets/icons/icon-72x72.png",
+        "/assets/icons/icon-96x96.png",
+        "/assets/img/logo/default-monochrome-black.svg",
+        "/assets/img/logo/default-monochrome-white.svg",
+        "/assets/img/logo/default-monochrome.svg",
+        "/assets/img/photo-1472099645785-5658abf4ff4e.jpg",
+        "/assets/img/workflow-logo-indigo-500-mark-white-text.svg",
+        "/assets/img/workflow-mark-indigo-500.svg",
+        "/assets/img/workflow-mark-indigo-600.svg"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "/10.5f4a293309e979ef3a86.js": "3b38f83e2a6acb0ccc9d3ca6a1ba3cdc7c88c7d7",
+    "/4.20df04e3955765c844c7.js": "c33478a9b8dc34305c10e6e2a48fa4691f3e26fe",
+    "/5.1fc3481a5b42ad6485c5.js": "49c14648076a397eb9c3bfaed0a036e9e67b9ca4",
+    "/6.ac92458b66903cda1df2.js": "27c46445e48ad7bcc8c9c1c39a55e7d1d1ba9222",
+    "/7.2d5a2173dc5a435217be.js": "65e411f2ca79a4913204aabed5c9a7f904accba1",
+    "/8.29e674193af3595de1a6.js": "f4f02bc39d312d7aa8c6032f0da557fd9efb1a20",
+    "/9.5d205fee0d68e4df7dd6.js": "86ae99eb7e3529bd19f9c7c63e7f6ecef467b726",
+    "/assets/data.csv": "71b4461642b4afc3830e510d4f74d3e8403f87e8",
+    "/assets/icons/icon-128x128.png": "dae3b6ed49bdaf4327b92531d4b5b4a5d30c7532",
+    "/assets/icons/icon-144x144.png": "b0bd89982e08f9bd2b642928f5391915b74799a7",
+    "/assets/icons/icon-152x152.png": "7479a9477815dfd9668d60f8b3b2fba709b91310",
+    "/assets/icons/icon-192x192.png": "1abd80d431a237a853ce38147d8c63752f10933b",
+    "/assets/icons/icon-384x384.png": "329749cd6393768d3131ed6304c136b1ca05f2fd",
+    "/assets/icons/icon-512x512.png": "559d9c4318b45a1f2b10596bbb4c960fe521dbcc",
+    "/assets/icons/icon-72x72.png": "c457e56089a36952cd67156f9996bc4ce54a5ed9",
+    "/assets/icons/icon-96x96.png": "3914125a4b445bf111c5627875fc190f560daa41",
+    "/assets/img/logo/default-monochrome-black.svg": "f7da9d20bcc03b871886e21bf57bbabab394e21b",
+    "/assets/img/logo/default-monochrome-white.svg": "041e2f4ac4e92e011dd61ffe954c422346c91750",
+    "/assets/img/logo/default-monochrome.svg": "d431a602cc99e065ed8d57ba08d1314b55486288",
+    "/assets/img/photo-1472099645785-5658abf4ff4e.jpg": "19af0ea3dd19b5cc8012974671f6d8157571aeb8",
+    "/assets/img/workflow-logo-indigo-500-mark-white-text.svg": "3421c22328bf803f74ed37d0b296f90ab0162416",
+    "/assets/img/workflow-mark-indigo-500.svg": "2d11fa13111da79b4e7b4e2f8512e4dc17dd116c",
+    "/assets/img/workflow-mark-indigo-600.svg": "b0cd2fbd106b41220b616475f8e09b06b7b6779a",
+    "/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
+    "/index.html": "f9c25979b9cbd1394e076ac1bb5e9ab06ca292da",
+    "/main.e2d5ba94eb5dd2348c0d.js": "de375e39d6f724ad246ede1676ad90fdd40e2927",
+    "/manifest.webmanifest": "50e09d4ee35170889e7189f064480a3bf6070dc1",
+    "/polyfills.16c3135c6d1dbd8a7ee0.js": "5936abf8526c0dd0b07dfd9cbbc3cc0173b40593",
+    "/runtime.a3bad844298289cf94d7.js": "8a62a26a3a8764b79fbf8051064d8a8bab354050",
+    "/styles.f0f2ab9e136351412897.css": "0e7d15d7b79daf2dddfcd1132ac16476b7a390ff"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ],
+  "navigationRequestStrategy": "performance"
+}
