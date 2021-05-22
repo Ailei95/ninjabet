@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
@@ -20,9 +21,9 @@ public class Matchday implements Serializable, AbstractEntity<Long> {
     @Column(nullable = false)
     private String name;
 
-    private Date fromDate;
+    private LocalDateTime fromDate;
 
-    private Date toDate;
+    private LocalDateTime toDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Competition competition;
@@ -30,7 +31,7 @@ public class Matchday implements Serializable, AbstractEntity<Long> {
     public Matchday() {
     }
 
-    public Matchday(String name, Date fromDate, Date toDate, Competition competition) {
+    public Matchday(String name, LocalDateTime fromDate, LocalDateTime toDate, Competition competition) {
         this.name = name;
         this.fromDate = fromDate;
         this.toDate = toDate;

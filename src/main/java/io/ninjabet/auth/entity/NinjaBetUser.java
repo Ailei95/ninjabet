@@ -8,7 +8,7 @@ import lombok.Setter;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -23,13 +23,13 @@ public class NinjaBetUser {
     @Column(nullable = false)
     private String password;
 
-    private Date registrationDate;
+    private LocalDateTime registrationDate;
 
-    private Date lastPasswordChangeDate;
+    private LocalDateTime lastPasswordChangeDate;
 
-    private Date lastLoginDate;
+    private LocalDateTime lastLoginDate;
 
     private boolean admin;
 
-    private boolean verify;
+    private boolean verified;
 }

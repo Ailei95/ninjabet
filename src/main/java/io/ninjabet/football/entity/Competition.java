@@ -1,13 +1,12 @@
 package io.ninjabet.football.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import io.ninjabet.core.entity.AbstractEntity;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -22,9 +21,9 @@ public class Competition implements Serializable, AbstractEntity<Long> {
     @Column(nullable = false)
     private String name;
 
-    private Date fromDate;
+    private LocalDateTime fromDate;
 
-    private Date toDate;
+    private LocalDateTime toDate;
 
     private String imageUrl;
 
@@ -37,7 +36,7 @@ public class Competition implements Serializable, AbstractEntity<Long> {
     public Competition() {
     }
 
-    public Competition(String name, Date fromDate, Date toDate, String imageUrl, Country country, List<CompetitionTeam> competitionTeam) {
+    public Competition(String name, LocalDateTime fromDate, LocalDateTime toDate, String imageUrl, Country country, List<CompetitionTeam> competitionTeam) {
         this.name = name;
         this.fromDate = fromDate;
         this.toDate = toDate;

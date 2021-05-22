@@ -1,7 +1,7 @@
 {
   "name": "d3-exercise",
   "short_name": "d3-exercise",
-  "theme_color": "#1976d2",
+  "theme_color": "#1f2937",
   "background_color": "#fafafa",
   "display": "standalone",
   "scope": "./",

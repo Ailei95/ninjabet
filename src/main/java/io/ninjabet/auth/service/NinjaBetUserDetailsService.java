@@ -1,5 +1,6 @@
 package io.ninjabet.auth.service;
 
+import io.ninjabet.auth.entity.NinjaBetConfirmRegistrationToken;
 import io.ninjabet.auth.entity.NinjaBetUser;
 import io.ninjabet.auth.entity.dto.NinjaBetUserDto;
 import io.ninjabet.auth.repository.NinjaBetUserRepository;
@@ -7,6 +8,7 @@ import io.ninjabet.securety.permission.NinjaBetFootballPermission;
 import io.ninjabet.securety.role.NinjaBetRole;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,7 +17,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
+import javax.mail.MessagingException;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -26,14 +32,20 @@ public class NinjaBetUserDetailsService implements UserDetailsService  {
 
     private final NinjaBetUserRepository ninjaBetUserRepository;
 
+    private final NinjaBetConfirmRegistrationTokenService ninjaBetConfirmRegistrationTokenService;
+
     private final PasswordEncoder passwordEncoder;
+
+    private final MailSenderService mailSenderService;
 
     public Optional<NinjaBetUser> findById(String email) {
         return this.ninjaBetUserRepository.findById(email);
     }
 
+    @Transactional
     public Optional<NinjaBetUser> add(NinjaBetUser ninjaBetUser) {
-        Date actionDate = new Date();
+        LocalDateTime actionDate = LocalDateTime.now();
+
         Optional<NinjaBetUser> localUser = findById(ninjaBetUser.getEmail());
 
         if (localUser.isPresent()) {
@@ -41,21 +53,70 @@ public class NinjaBetUserDetailsService implements UserDetailsService  {
         }
 
         ninjaBetUser.setAdmin(false);
-        ninjaBetUser.setVerify(false);
+        ninjaBetUser.setVerified(false);
         ninjaBetUser.setPassword(passwordEncoder.encode(ninjaBetUser.getPassword()));
         ninjaBetUser.setRegistrationDate(actionDate);
         ninjaBetUser.setLastPasswordChangeDate(actionDate);
 
-        return Optional.of(this.ninjaBetUserRepository.save(ninjaBetUser));
+        NinjaBetUser localNinjaBetUser =  this.ninjaBetUserRepository.save(ninjaBetUser);
+
+        String token = UUID.randomUUID().toString();
+
+        NinjaBetConfirmRegistrationToken ninjaBetConfirmRegistrationToken
+                = new NinjaBetConfirmRegistrationToken(
+                    token,
+                    actionDate,
+                    actionDate.plusMinutes(15L),
+                    null,
+                    localNinjaBetUser);
+
+        ninjaBetConfirmRegistrationTokenService.add(ninjaBetConfirmRegistrationToken);
+
+        try {
+            mailSenderService.send(localNinjaBetUser.getEmail(),
+                    "http://localhost:8080/api/registration?token=" + ninjaBetConfirmRegistrationToken.getToken());
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Cannot send email");
+        }
+
+        return Optional.of(localNinjaBetUser);
     }
 
     public void updateLastLoginDate(String email) {
         Optional<NinjaBetUser> localNinjaBetUser = findById(email);
 
         localNinjaBetUser.ifPresent(ninjaBetUser -> {
-            ninjaBetUser.setLastLoginDate(new Date());
+            ninjaBetUser.setLastLoginDate(LocalDateTime.now());
             ninjaBetUserRepository.save(localNinjaBetUser.get());
         });
+    }
+
+    public Optional<NinjaBetUser> confirmNinjaBetUser(String token) {
+        Optional<NinjaBetConfirmRegistrationToken> ninjaBetConfirmRegistrationToken
+                = this.ninjaBetConfirmRegistrationTokenService.findByToken(token);
+
+        if (ninjaBetConfirmRegistrationToken.isPresent() && isTokenValid(ninjaBetConfirmRegistrationToken.get())) {
+
+            Optional<NinjaBetUser> ninjaBetUser = this.findById(ninjaBetConfirmRegistrationToken.get().getUser().getEmail());
+
+            ninjaBetUser.ifPresent(this::setVerified);
+
+            return ninjaBetUser;
+        }
+
+        return Optional.empty();
+    }
+
+    private boolean isTokenValid(NinjaBetConfirmRegistrationToken ninjaBetConfirmRegistrationToken) {
+        return ninjaBetConfirmRegistrationToken.getExpiresAt().compareTo(LocalDateTime.now()) > 0
+                && ninjaBetConfirmRegistrationToken.getCreatedAt() == null;
+    }
+
+    private void setVerified(NinjaBetUser ninjaBetUser) {
+        ninjaBetUser.setVerified(true);
+
+        this.ninjaBetUserRepository.save(ninjaBetUser);
     }
 
     public Optional<NinjaBetUserDto> getCurrentUser() {
@@ -69,7 +130,7 @@ public class NinjaBetUserDetailsService implements UserDetailsService  {
             ninjaBetUserDto.setEmail(userDetails.getUsername());
 
             ninjaBetUserDto.setAuthorities(userDetails.getAuthorities().stream()
-                    .map((authority) -> authority.toString()).collect(Collectors.toList())
+                    .map(Object::toString).collect(Collectors.toList())
             );
 
             return Optional.of(ninjaBetUserDto);
@@ -136,7 +197,7 @@ public class NinjaBetUserDetailsService implements UserDetailsService  {
 
             @Override
             public boolean isEnabled() {
-                return ninjaBetUser.get().isVerify();
+                return ninjaBetUser.get().isVerified();
             }
         };
     }

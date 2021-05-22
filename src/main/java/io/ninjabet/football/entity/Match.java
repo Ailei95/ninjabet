@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
@@ -17,7 +18,7 @@ public class Match implements Serializable, AbstractEntity<Long> {
     @GeneratedValue
     private Long id;
 
-    private Date date;
+    private LocalDateTime date;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Team home;
@@ -31,7 +32,7 @@ public class Match implements Serializable, AbstractEntity<Long> {
     public Match() {
     }
 
-    public Match(Team home, Team guest, Date date, Matchday matchday) {
+    public Match(Team home, Team guest, LocalDateTime date, Matchday matchday) {
         this.home = home;
         this.guest = guest;
         this.date = date;

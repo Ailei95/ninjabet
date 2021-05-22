@@ -10,8 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Optional;
-
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api")
@@ -23,17 +21,21 @@ public class NinjaBetUserController {
 
     @GetMapping("/user")
     NinjaBetUserDto get() {
-        Optional<NinjaBetUserDto> local = this.ninjaBetUserDetailsService.getCurrentUser();
-
-        return local.isPresent() ? local.get() : null;
+        return this.ninjaBetUserDetailsService.getCurrentUser().orElse(null);
     }
 
     // For registration only
 
-    @PostMapping("/users")
+    @PostMapping("/registration")
     NinjaBetUserDto add(@RequestBody RegistrationNinjaBetUserDto registrationNinjaBetUserDto) {
         return fromEntityToDto(this.ninjaBetUserDetailsService.add(fromDtoToEntity(registrationNinjaBetUserDto))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.CONFLICT, "User already exists")));
+    }
+
+    @PostMapping("/registration/confirm")
+    NinjaBetUserDto confirm(@RequestParam String token) {
+        return fromEntityToDto(this.ninjaBetUserDetailsService.confirmNinjaBetUser(token)
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No valid token found")));
     }
 
     private NinjaBetUserDto fromEntityToDto(NinjaBetUser ninjaBetUser) {
