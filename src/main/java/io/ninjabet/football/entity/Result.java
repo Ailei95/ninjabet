@@ -16,8 +16,8 @@ public class Result implements Serializable, AbstractEntity<Long> {
     @Id
     private Long matchId;
 
-    @OneToOne
     @MapsId
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
     private Match match;
 
     private Integer homeScore;

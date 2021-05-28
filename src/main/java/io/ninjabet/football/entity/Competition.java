@@ -27,7 +27,7 @@ public class Competition implements Serializable, AbstractEntity<Long> {
 
     private String imageUrl;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Country country;
 
     @OneToMany(mappedBy = "competition")

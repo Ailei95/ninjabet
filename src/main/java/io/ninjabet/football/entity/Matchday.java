@@ -25,7 +25,7 @@ public class Matchday implements Serializable, AbstractEntity<Long> {
 
     private LocalDateTime toDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Competition competition;
 
     public Matchday() {

@@ -15,11 +15,11 @@ public class CompetitionTeam implements Serializable, AbstractEntity<Competition
     @EmbeddedId
     private CompetitionTeamKey id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @MapsId("competitionId")
     private Competition competition;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @MapsId("teamId")
     private Team team;
 

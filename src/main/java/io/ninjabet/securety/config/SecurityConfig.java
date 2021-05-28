@@ -1,8 +1,8 @@
 package io.ninjabet.securety.config;
 
-import io.ninjabet.auth.service.AuthenticationFailureHandler;
-import io.ninjabet.auth.service.LoginSuccessHandle;
-import io.ninjabet.auth.service.LogoutSuccessHandle;
+import io.ninjabet.auth.component.AuthenticationFailureHandler;
+import io.ninjabet.auth.component.LoginSuccessHandle;
+import io.ninjabet.auth.component.LogoutSuccessHandle;
 import io.ninjabet.securety.role.NinjaBetRole;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;

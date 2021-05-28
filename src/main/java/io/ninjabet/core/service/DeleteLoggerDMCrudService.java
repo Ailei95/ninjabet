@@ -1,7 +1,7 @@
 package io.ninjabet.core.service;
 
 import io.ninjabet.auth.entity.NinjaBetUser;
-import io.ninjabet.auth.service.NinjaBetUserDetailsService;
+import io.ninjabet.auth.service.NinjaBetUserService;
 import io.ninjabet.core.entity.AbstractEntity;
 import io.ninjabet.core.entity.ActionLogger;
 import io.ninjabet.core.entity.DeleteManagerEntity;
@@ -21,19 +21,21 @@ public abstract class DeleteLoggerDMCrudService
         extends DeleteManagerCrudService<T, ID, R> {
 
     private final ActionLoggerRepository actionLoggerRepository;
+
     private final Class<T> tClass;
-    private final NinjaBetUserDetailsService ninjaBetUserDetailsService;
+
+    private final NinjaBetUserService ninjaBetUserService;
 
     public DeleteLoggerDMCrudService(
             Class<T> tClass,
             ActionLoggerRepository actionLoggerRepository,
             R crudRepository,
-            NinjaBetUserDetailsService ninjaBetUserDetailsService
+            NinjaBetUserService ninjaBetUserService
     ) {
         super(crudRepository);
         this.tClass = tClass;
         this.actionLoggerRepository = actionLoggerRepository;
-        this.ninjaBetUserDetailsService = ninjaBetUserDetailsService;
+        this.ninjaBetUserService = ninjaBetUserService;
     }
 
     @Transactional
@@ -64,7 +66,7 @@ public abstract class DeleteLoggerDMCrudService
     protected Optional<NinjaBetUser> getCurrentUser() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return (principal instanceof UserDetails) ?
-                ninjaBetUserDetailsService.findById(((UserDetails) principal).getUsername()) : Optional.empty();
+                ninjaBetUserService.findById(((UserDetails) principal).getUsername()) : Optional.empty();
     }
 
     protected void saveAction(ID id, String action) {

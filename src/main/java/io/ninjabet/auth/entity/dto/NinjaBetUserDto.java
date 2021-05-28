@@ -12,4 +12,6 @@ public class NinjaBetUserDto {
     private String email;
 
     private List<String> authorities;
+
+    private String imageUrl;
 }

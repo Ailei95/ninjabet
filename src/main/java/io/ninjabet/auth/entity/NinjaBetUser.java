@@ -23,13 +23,18 @@ public class NinjaBetUser {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
     private LocalDateTime registrationDate;
 
     private LocalDateTime lastPasswordChangeDate;
 
     private LocalDateTime lastLoginDate;
 
+    @Column(nullable = false)
     private boolean admin;
 
+    @Column(nullable = false)
     private boolean verified;
+
+    private String imageUrl;
 }
