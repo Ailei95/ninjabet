@@ -40,16 +40,24 @@ public class NinjaBetUserController {
     NinjaBetUserDto setAdmin(@RequestParam boolean admin) {
         Optional<NinjaBetUser> ninjaBetUser = this.ninjaBetUserDetailsService.getCurrentUser();
 
-        return fromEntityToDto(this.ninjaBetUserService.setAdmin(ninjaBetUser.orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, HttpStatus.UNAUTHORIZED.getReasonPhrase())), admin));
+        this.ninjaBetUserService.setAdmin(ninjaBetUser.orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, HttpStatus.UNAUTHORIZED.getReasonPhrase())), admin);
+
+        // Update grant authority for current session user
+
+        this.ninjaBetUserDetailsService.updateUserDetails(ninjaBetUser.get().getEmail());
+
+        return this.get();
     }
 
     // For registration only
 
     @GetMapping("/registration")
     NinjaBetUserDto confirm(@RequestParam String token) {
-        return fromEntityToDto(this.ninjaBetUserService.confirmNinjaBetUser(token)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No valid token found")));
+        this.ninjaBetUserService.confirmNinjaBetUser(token)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No valid token found"));
+
+        return this.get();
     }
 
     @PostMapping("/registration")

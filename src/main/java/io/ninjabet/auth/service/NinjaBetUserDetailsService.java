@@ -6,6 +6,8 @@ import io.ninjabet.securety.permission.NinjaBetFootballPermission;
 import io.ninjabet.securety.role.NinjaBetRole;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,7 +34,9 @@ public class NinjaBetUserDetailsService implements UserDetailsService  {
     }
 
     public Optional<NinjaBetUserDto> getCurrentUserDto() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        Object principal = auth.getPrincipal();
 
         if (principal instanceof UserDetails) {
             UserDetails userDetails = loadUserByUsername(((UserDetails) principal).getUsername());
@@ -46,10 +50,26 @@ public class NinjaBetUserDetailsService implements UserDetailsService  {
                     .map(Object::toString).collect(Collectors.toList())
             );
 
+            Authentication newAuth
+                    = new UsernamePasswordAuthenticationToken(auth.getPrincipal(), auth.getCredentials(), userDetails.getAuthorities());
+
+            SecurityContextHolder.getContext().setAuthentication(newAuth);
+
             return Optional.of(ninjaBetUserDto);
         } else {
             return Optional.empty();
         }
+    }
+
+    public void updateUserDetails(String email) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        UserDetails userDetails = this.loadUserByUsername(email);
+
+        Authentication newAuth
+                = new UsernamePasswordAuthenticationToken(auth.getPrincipal(), auth.getCredentials(), userDetails.getAuthorities());
+
+        SecurityContextHolder.getContext().setAuthentication(newAuth);
     }
 
     @Override

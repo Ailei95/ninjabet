@@ -34,6 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
+
         if (Objects.equals(environment.getProperty("spring.profiles.active"), "prod")) {
             httpSecurity.authorizeRequests()
                     .antMatchers("/api/admin").hasRole(NinjaBetRole.ADMIN.name())
@@ -52,6 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         .invalidateHttpSession(true)
                     .   deleteCookies("JSESSIONID", "remember-me")
                     .and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+                    //.and().sessionManagement().maximumSessions(1).maxSessionsPreventsLogin(true);
                     // disable cross request forgery token
                     // .and().csrf().disable();
         } else {
